@@ -1,0 +1,180 @@
+/* ADZU Chat Card Component */
+.adzu-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Logo section */
+.adzu-card-logo {
+  width: 100%;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.adzu-logo-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+}
+
+.adzu-logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Content section */
+.adzu-card-content {
+  width: 100%;
+  padding: 2rem;
+}
+
+.adzu-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1e1e1e;
+}
+
+.adzu-beta-badge {
+  display: inline-block;
+  background-color: #ffe8a3;
+  color: #02542d;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  margin-top: 0.5rem;
+}
+
+.adzu-description {
+  color: #757575;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* Form elements */
+.adzu-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.adzu-form-group {
+  width: 100%;
+}
+
+.adzu-form-label {
+  display: block;
+  color: #1e1e1e;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.adzu-select-wrapper {
+  position: relative;
+}
+
+.adzu-form-select {
+  width: 100%;
+  background-color: #f5f5f5;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  appearance: none;
+  font-size: 1rem;
+  color: #1e1e1e;
+}
+
+.adzu-form-select:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+.adzu-select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Chat button */
+.adzu-chat-button {
+  width: 100%;
+  background-color: #2c2c2c;
+  color: white;
+  padding: 0.75rem 0;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 1.5rem;
+}
+
+.adzu-chat-button:hover {
+  background-color: #000000;
+}
+
+/* Reminder section */
+.adzu-reminder-container {
+  transition: 500ms;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+}
+
+.adzu-reminder-header {
+  display: flex;
+  transition: 500ms;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.adzu-reminder-title {
+  font-weight: 500;
+  font-size: 1.125rem;
+  color: #1e1e1e;
+}
+
+.adzu-reminder-content {
+  padding: 0 1rem 1rem 1rem;
+}
+
+.adzu-reminder-text {
+  color: #757575;
+  line-height: 1.5;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .adzu-card {
+    flex-direction: row;
+  }
+
+  .adzu-card-logo {
+    width: 40%;
+  }
+
+  .adzu-card-content {
+    width: 60%;
+  }
+
+  .adzu-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
