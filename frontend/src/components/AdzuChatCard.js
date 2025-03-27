@@ -31,6 +31,8 @@ const AdzuChatCard = () => {
                         <div className="adzu-select-wrapper">
                             <select className="adzu-form-select">
                                 <option>Main Campus</option>
+                                <option>Lantaka Campus</option>
+                                <option>Tetuan Campus</option>
                             </select>
                             <div className="adzu-select-arrow">
                                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,6 +53,14 @@ const AdzuChatCard = () => {
                         <div className="adzu-select-wrapper">
                             <select className="adzu-form-select">
                                 <option>BSN</option>
+                                <option>SITEAO</option>
+                                <option>AAO</option>
+                                <option>LAAO</option>
+                                <option>COL</option>
+                                <option>SOM</option>
+                                <option>EAO</option>
+                                <option>MAO</option>
+
                             </select>
                             <div className="adzu-select-arrow">
                                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
