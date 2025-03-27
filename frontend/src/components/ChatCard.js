@@ -36,7 +36,7 @@ function ChatCard() {
         setIsWaiting(false);
         setMessages(prev => [...prev, { text: 'Connected to a chat partner!', sender: 'system' }]);
       } else if (data.type === 'message') {
-        setMessages(prev => [...prev, { text: data.message, sender: 'other' }]);
+        setMessages(prev => [...prev, { text: data.message, sender: 'user' }]);
       }
     };
 
@@ -59,7 +59,7 @@ function ChatCard() {
     e.preventDefault();
     if (message.trim() && wsRef.current && !isWaiting) {
       wsRef.current.send(message);
-      setMessages(prev => [...prev, { text: message, sender: 'user' }]);
+      setMessages(prev => [...prev, { text: message, sender: 'other' }]);
       setMessage('');
     }
   };

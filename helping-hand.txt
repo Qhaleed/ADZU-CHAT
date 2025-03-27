@@ -7,15 +7,16 @@ Create two terminals:
         .\venv\Scripts\Activate.ps1
 
         # Install the required packages
+        # Do this only once
         python -m pip install fastapi uvicorn websockets python-multipart
 
-        # Can skip the top
+        # Important
 
             # Start the server on App
             uvicorn main:app --reload
 
         # In case of portconflict, we can change the port 
             uvicorn main:app --reload --port 8001
-            
+
     frontend
         npm start #yes yan lang
