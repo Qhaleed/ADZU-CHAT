@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   max-width: 1200px;
-  width: 100%;
+  width: 80vw;
+  height: 85vh;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
@@ -27,6 +28,7 @@
 }
 
 .adzu-logo-image {
+  border-radius: 15px;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -134,31 +136,13 @@
   transition: 500ms;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
+  padding: 0 1rem;
+}
+.adzu-reminder-container p {
+  color: #000000;
+  
 }
 
-.adzu-reminder-header {
-  display: flex;
-  transition: 500ms;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  cursor: pointer;
-}
-
-.adzu-reminder-title {
-  font-weight: 500;
-  font-size: 1.125rem;
-  color: #1e1e1e;
-}
-
-.adzu-reminder-content {
-  padding: 0 1rem 1rem 1rem;
-}
-
-.adzu-reminder-text {
-  color: #757575;
-  line-height: 1.5;
-}
 
 /* Responsive styles */
 @media (min-width: 768px) {

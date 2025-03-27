@@ -1,6 +1,7 @@
 import { useState } from "react"
 import "./AdzuChatCard.css"
-
+import App from "../App";
+import { Link } from "react-router-dom";
 const AdzuChatCard = () => {
     const [reminderOpen, setReminderOpen] = useState(true)
 
@@ -65,41 +66,11 @@ const AdzuChatCard = () => {
                         </div>
                     </div>
                 </div>
-
-                <button className="adzu-chat-button">Chat now</button>
-
+                <Link to="/chat">
+                    <button className="adzu-chat-button">Chat now</button>
+                </Link>
                 <div className="adzu-reminder-container">
-                    <div className="adzu-reminder-header" onClick={() => setReminderOpen(!reminderOpen)}>
-                        <h3 className="adzu-reminder-title">Reminder</h3>
-                        <div className="adzu-reminder-icon">
-                            {reminderOpen ? (
-                                <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M15 9L8 2L1 9"
-                                        stroke="#1E1E1E"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            ) : (
-                                <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1 1L8 8L15 1"
-                                        stroke="#1E1E1E"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            )}
-                        </div>
-                    </div>
-                    {reminderOpen && (
-                        <div className="adzu-reminder-content" style={{ transition: "500ms" }}>
-                            <p className="adzu-reminder-text">Remember to keep the environment safe and friendly</p>
-                        </div>
-                    )}
+                    <p>Note: This is a beta version of the chat. Some features may not work as expected.</p>
                 </div>
             </div>
         </div>

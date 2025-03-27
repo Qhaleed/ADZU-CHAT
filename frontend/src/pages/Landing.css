@@ -2,7 +2,7 @@
 .landing-container {
   text-align: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 100vw;
   background: white;
   padding: 20px;
   border-radius: 10px;
