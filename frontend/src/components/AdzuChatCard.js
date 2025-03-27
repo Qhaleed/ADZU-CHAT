@@ -60,6 +60,7 @@ const AdzuChatCard = () => {
                                 <option>SOM</option>
                                 <option>EAO</option>
                                 <option>MAO</option>
+                                <option>ALUMNI</option>
 
                             </select>
                             <div className="adzu-select-arrow">
