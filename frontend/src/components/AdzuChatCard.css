@@ -3,45 +3,40 @@
   display: flex;
   flex-direction: column;
   max-width: 1200px;
-  width: 100%;
-  padding: 1rem 0rem;
-  min-height: auto;
+  width: 90%;
+  padding: 1.5rem;
   margin: 1rem auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid black;
+  border: 1px solid #d9d9d9;
+  background: white;
 }
 
 /* Logo section */
 .adzu-card-logo {
-  width: 100%;
-  background-color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f5f5f500;
+  padding: 1.5rem;
 }
 
 .adzu-logo-wrapper {
-  position: relative;
   width: 100%;
-  max-width: 300px;
+  max-width: 250px;
   aspect-ratio: 1 / 1;
 }
 
 .adzu-logo-image {
   border-radius: 15px;
   width: 100%;
-  height: 100%;
   object-fit: contain;
 }
 
 /* Content section */
 .adzu-card-content {
-  width: 100%;
-  padding: 1.25rem 0rem;
-  margin: 5%;
-  box-sizing: border-box;
+  padding: 1.5rem;
 }
 
 .adzu-title-wrapper {
@@ -56,11 +51,9 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #1e1e1e;
-  margin: 0;
 }
 
 .adzu-beta-badge {
-  display: inline-block;
   background-color: #ffe8a3;
   color: #02542d;
   font-size: 0.75rem;
@@ -96,17 +89,12 @@
   font-size: 0.9rem;
 }
 
-.adzu-select-wrapper {
-  position: relative;
-}
-
 .adzu-form-select {
   width: 100%;
   background-color: #f5f5f5;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
   padding: 0.65rem 0.9rem;
-  appearance: none;
   font-size: 0.9rem;
   color: #1e1e1e;
 }
@@ -115,14 +103,6 @@
   outline: none;
   border-color: #4285f4;
   box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
-}
-
-.adzu-select-arrow {
-  position: absolute;
-  top: 50%;
-  right: 0.9rem;
-  transform: translateY(-50%);
-  pointer-events: none;
 }
 
 /* Chat button */
@@ -149,92 +129,50 @@
   border: 1px solid #d9d9d9;
   border-radius: 6px;
   padding: 0.7rem 0.9rem;
-}
-
-.adzu-reminder-container p {
-  color: #000000;
-  margin: 0;
   font-size: 0.85rem;
-  line-height: 1.4;
 }
 
 /* Responsive styles */
-@media (min-width: 400px) {
-  .adzu-card {
-    width: 90%;
-  }
-
-  .adzu-card-content {
-    padding: 1.5rem;
-  }
-}
-
 @media (min-width: 640px) {
   .adzu-card {
     width: 85%;
   }
-
   .adzu-title {
     font-size: 1.75rem;
   }
-
   .adzu-description {
     font-size: 0.95rem;
-  }
-
-  .adzu-form-select {
-    padding: 0.75rem 1rem;
   }
 }
 
 @media (min-width: 768px) {
   .adzu-card {
     flex-direction: row;
-    width: 90%;
+    align-items: center;
     min-height: 450px;
-    margin: 2rem auto;
+    width: 80%;
   }
-
   .adzu-card-logo {
-    width: 45%;
+    width: 40%;
     padding: 2rem;
   }
-
   .adzu-card-content {
-    width: 55%;
+    width: 60%;
     padding: 2rem;
   }
-
   .adzu-form-grid {
     grid-template-columns: 1fr 1fr;
   }
-
   .adzu-title {
     font-size: 2rem;
-  }
-
-  .adzu-beta-badge {
-    font-size: 0.875rem;
-    padding: 0.25rem 0.75rem;
   }
 }
 
 @media (min-width: 1024px) {
   .adzu-card {
-    width: 80%;
+    width: 70%;
     max-height: 550px;
-    height: 100vh;
-    padding: 2rem 3rem;
   }
-
-  .adzu-card-logo {
-    width: 40%;
-  }
-
-  .adzu-card-content {
-    width: 60%;
-  }
-
   .adzu-title {
     font-size: 2.25rem;
   }

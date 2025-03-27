@@ -35,17 +35,7 @@ const AdzuChatCard = () => {
                                 <option>Lantaka Campus</option>
                                 <option>Tetuan Campus</option>
                             </select>
-                            <div className="adzu-select-arrow">
-                                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1 1L6 6L11 1"
-                                        stroke="#757575"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </div>
+
                         </div>
                     </div>
 
@@ -63,17 +53,7 @@ const AdzuChatCard = () => {
                                 <option>MAO</option>
                                 <option>ALUMNI</option>
                             </select>
-                            <div className="adzu-select-arrow">
-                                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1 1L6 6L11 1"
-                                        stroke="#757575"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </div>
+
                         </div>
                     </div>
                 </div>
