@@ -5,9 +5,13 @@ import App from '../App';
 function ChatCard() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
-    { text: 'Hello Pookie.', sender: 'user' },
-    { text: 'Whatchudoin?', sender: 'user' },
-    { text: 'Not much, just chilling.', sender: 'other' }
+    { text: 'Hello, what is this app for?', sender: 'user' },
+    { text: 'Is this really anonymous?', sender: 'user' },
+    { text: 'Hi, this app is built to bring the Ateneo Community closer than ever before, whether you are looking for a friend, to meet someone, or to just find someone to chat with.', sender: 'other' },
+    { text: 'And yes, this is completely anonymous, no user inputted data will be saved, meaning all chats will be visible only to you and your reciepient. Sadly, due to this we are not able to save chat history.', sender: 'other' },
+    { text: 'Make every chat count!', sender: 'other' },
+    { text: 'Alright love it!', sender: 'user' },
+
   ]);
 
   const handleInputChange = (e) => {
