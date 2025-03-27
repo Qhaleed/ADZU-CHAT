@@ -1,9 +1,9 @@
-import { useState } from "react"
-import "./AdzuChatCard.css"
-import App from "../App";
+import { useState } from "react";
+import "./AdzuChatCard.css";
 import { Link } from "react-router-dom";
+
 const AdzuChatCard = () => {
-    const [reminderOpen, setReminderOpen] = useState(true)
+    const [reminderOpen, setReminderOpen] = useState(true);
 
     return (
         <div className="adzu-card">
@@ -16,9 +16,10 @@ const AdzuChatCard = () => {
 
             {/* Right side - Content */}
             <div className="adzu-card-content">
-                <h1 className="adzu-title">ADZU CHAT</h1>
-
-                <div className="adzu-beta-badge">Beta</div>
+                <div className="adzu-title-wrapper">
+                    <h1 className="adzu-title">ADZU CHAT</h1>
+                    <div className="adzu-beta-badge">Beta</div>
+                </div>
 
                 <p className="adzu-description">
                     An open source local anonymous chat made for students of the Ateneo de Zamboanga University. All chat within
@@ -61,7 +62,6 @@ const AdzuChatCard = () => {
                                 <option>EAO</option>
                                 <option>MAO</option>
                                 <option>ALUMNI</option>
-
                             </select>
                             <div className="adzu-select-arrow">
                                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,8 +85,7 @@ const AdzuChatCard = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AdzuChatCard
-
+export default AdzuChatCard;

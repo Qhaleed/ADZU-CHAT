@@ -3,8 +3,10 @@
   display: flex;
   flex-direction: column;
   max-width: 1200px;
-  width: 80vw;
-  height: 65vh;
+  width: 100%;
+  padding: 5rem 0rem;
+  min-height: auto;
+  margin: 1rem auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
@@ -17,13 +19,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
 }
 
 .adzu-logo-wrapper {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 250px;
   aspect-ratio: 1 / 1;
 }
 
@@ -37,31 +38,40 @@
 /* Content section */
 .adzu-card-content {
   width: 100%;
-  padding: 2rem;
+  padding: 1.25rem;
+  box-sizing: border-box;
+}
+
+.adzu-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 }
 
 .adzu-title {
-  font-size: 2.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #1e1e1e;
+  margin: 0;
 }
 
 .adzu-beta-badge {
   display: inline-block;
   background-color: #ffe8a3;
   color: #02542d;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 9999px;
-  margin-top: 0.5rem;
 }
 
 .adzu-description {
   color: #757575;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin: 0.75rem 0 1.25rem;
   line-height: 1.5;
+  font-size: 0.9rem;
 }
 
 /* Form elements */
@@ -69,7 +79,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .adzu-form-group {
@@ -81,6 +91,7 @@
   color: #1e1e1e;
   font-weight: 500;
   margin-bottom: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .adzu-select-wrapper {
@@ -92,9 +103,9 @@
   background-color: #f5f5f5;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 0.9rem;
   appearance: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #1e1e1e;
 }
 
@@ -107,7 +118,7 @@
 .adzu-select-arrow {
   position: absolute;
   top: 50%;
-  right: 1rem;
+  right: 0.9rem;
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -117,14 +128,14 @@
   width: 100%;
   background-color: #2c2c2c;
   color: white;
-  padding: 0.75rem 0;
+  padding: 0.7rem 0;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.95rem;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .adzu-chat-button:hover {
@@ -133,19 +144,85 @@
 
 /* Reminder section */
 .adzu-reminder-container {
-  transition: 500ms;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
-  padding: 0 1rem;
+  padding: 0.7rem 0.9rem;
 }
+
 .adzu-reminder-container p {
   color: #000000;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 /* Responsive styles */
+@media (min-width: 400px) {
+  .adzu-card {
+    width: 90%;
+  }
+
+  .adzu-card-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .adzu-card {
+    width: 85%;
+  }
+
+  .adzu-title {
+    font-size: 1.75rem;
+  }
+
+  .adzu-description {
+    font-size: 0.95rem;
+  }
+
+  .adzu-form-select {
+    padding: 0.75rem 1rem;
+  }
+}
+
 @media (min-width: 768px) {
   .adzu-card {
     flex-direction: row;
+    width: 90%;
+    min-height: 450px;
+    margin: 2rem auto;
+  }
+
+  .adzu-card-logo {
+    width: 45%;
+    padding: 2rem;
+  }
+
+  .adzu-card-content {
+    width: 55%;
+    padding: 2rem;
+  }
+
+  .adzu-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .adzu-title {
+    font-size: 2rem;
+  }
+
+  .adzu-beta-badge {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .adzu-card {
+    width: 80%;
+    max-height: 550px;
+    height: 100vh;
+    padding: 1rem 1rem x;
   }
 
   .adzu-card-logo {
@@ -156,7 +233,7 @@
     width: 60%;
   }
 
-  .adzu-form-grid {
-    grid-template-columns: 1fr 1fr;
+  .adzu-title {
+    font-size: 2.25rem;
   }
 }
