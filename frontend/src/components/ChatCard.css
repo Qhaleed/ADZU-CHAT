@@ -64,6 +64,20 @@
     justify-content: flex-end;
   }
   
+  .message.system {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .message.system .message-bubble {
+    background-color: #f0f0f0;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+  }
+  
   .message-bubble {
     background-color: #5d76b5;
     color: white;
@@ -104,4 +118,14 @@
   
   .send-button {
     margin-left: 5px;
+  }
+  
+  .tag.connected {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .tag.disconnected {
+    background-color: #f44336;
+    color: white;
   }
