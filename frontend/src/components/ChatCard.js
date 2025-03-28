@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatCard.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 function ChatCard() {
@@ -11,6 +11,12 @@ function ChatCard() {
   const wsRef = useRef(null);
   const userId = useRef(uuidv4());
   const messagesEndRef = useRef(null);
+  const location = useLocation();
+
+  // Extract campus and preference from URL parameters
+  const params = new URLSearchParams(location.search);
+  const campus = params.get("campus") || "Main Campus";
+  const preference = params.get("preference") || "BSN";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -21,12 +27,16 @@ function ChatCard() {
   }, [messages]);
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://localhost:8000/ws/${userId.current}`);
+    // Create the WebSocket connection using campus and preference in the path
+    const ws = new WebSocket(`ws://localhost:8000/ws/${userId.current}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
     wsRef.current = ws;
 
     ws.onopen = () => {
       setIsConnected(true);
-      setMessages(prev => [...prev, { text: 'Connected to server. Waiting for a partner...', sender: 'system' }]);
+      // setMessages(prev => [
+      //   ...prev,
+      //   { text: 'Connected to server. Waiting for a partner...', sender: 'system' }
+      // ]);
     };
 
     ws.onmessage = (event) => {
@@ -35,7 +45,6 @@ function ChatCard() {
 
         if (data.type === 'system') {
           setMessages(prev => [...prev, { text: data.message, sender: 'system' }]);
-
           if (data.message === 'Your chat partner has disconnected.') {
             setIsWaiting(true);
           } else if (data.message === 'Connected to a chat partner!') {
@@ -60,7 +69,7 @@ function ChatCard() {
         ws.close();
       }
     };
-  }, []);
+  }, [campus, preference]);
 
   const handleInputChange = (e) => {
     setMessage(e.target.value);
@@ -77,7 +86,6 @@ function ChatCard() {
 
   const handleDisconnect = () => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      // wsRef.current.send(JSON.stringify({ type: 'system', message: 'Your chat partnedsr has disconnected.' }));
       wsRef.current.close();
     }
   };
@@ -88,8 +96,8 @@ function ChatCard() {
         <div className="chat-header-left">
           <h1>ADZU CHAT</h1>
           <div className="chat-tags">
-            <span className="tag">Main Campus</span>
-            <span className="tag">BSN</span>
+            <span className="tag">{campus}</span>
+            <span className="tag">{preference}</span>
             <span className="tag">Beta</span>
             <span className={`tag ${isConnected ? 'connected' : 'disconnected'}`}>
               {isConnected ? (isWaiting ? 'Waiting...' : 'Connected') : 'Disconnected'}
