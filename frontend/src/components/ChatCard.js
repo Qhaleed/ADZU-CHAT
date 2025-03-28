@@ -21,7 +21,6 @@ function ChatCard() {
   }, [messages]);
 
   useEffect(() => {
-    // Connect to WebSocket
     const ws = new WebSocket(`ws://localhost:8000/ws/${userId.current}`);
     wsRef.current = ws;
 
@@ -31,12 +30,22 @@ function ChatCard() {
     };
 
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === 'system' && data.message === 'Connected to a chat partner!') {
-        setIsWaiting(false);
-        setMessages(prev => [...prev, { text: 'Connected to a chat partner!', sender: 'system' }]);
-      } else if (data.type === 'message') {
-        setMessages(prev => [...prev, { text: data.message, sender: 'user' }]);
+      try {
+        const data = JSON.parse(event.data);
+
+        if (data.type === 'system') {
+          setMessages(prev => [...prev, { text: data.message, sender: 'system' }]);
+
+          if (data.message === 'Your chat partner has disconnected.') {
+            setIsWaiting(true);
+          } else if (data.message === 'Connected to a chat partner!') {
+            setIsWaiting(false);
+          }
+        } else if (data.type === 'message') {
+          setMessages(prev => [...prev, { text: data.message, sender: 'user' }]);
+        }
+      } catch (error) {
+        console.error('Error parsing message:', error);
       }
     };
 
@@ -47,7 +56,9 @@ function ChatCard() {
     };
 
     return () => {
-      ws.close();
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.close();
+      }
     };
   }, []);
 
@@ -57,10 +68,17 @@ function ChatCard() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (message.trim() && wsRef.current && !isWaiting) {
-      wsRef.current.send(message);
+    if (message.trim() && wsRef.current && wsRef.current.readyState === WebSocket.OPEN && !isWaiting) {
+      wsRef.current.send(JSON.stringify({ type: 'message', message }));
       setMessages(prev => [...prev, { text: message, sender: 'other' }]);
       setMessage('');
+    }
+  };
+
+  const handleDisconnect = () => {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      // wsRef.current.send(JSON.stringify({ type: 'system', message: 'Your chat partnedsr has disconnected.' }));
+      wsRef.current.close();
     }
   };
 
@@ -79,7 +97,7 @@ function ChatCard() {
           </div>
         </div>
         <Link to="/">
-          <button className="chat-back">
+          <button className="chat-back" onClick={handleDisconnect}>
             <i className="fas fa-arrow-left"></i>
           </button>
         </Link>

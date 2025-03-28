@@ -1,6 +1,7 @@
 Create two terminals:
     backend
         # Create a virtual environment
+        # Do this only one time just once please
         python -m venv venv
 
         # Activate the virtual environment
@@ -13,6 +14,7 @@ Create two terminals:
         # Important
 
             # Start the server on App
+            # cd app
             uvicorn main:app --reload
 
         # In case of portconflict, we can change the port 
