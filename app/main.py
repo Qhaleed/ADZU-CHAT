@@ -95,6 +95,13 @@ class ConnectionManager:
         except Exception as e:
             print(f"Error processing message: {e}")
 
+    def get_user_stats(self):
+        """Return the number of active, waiting, and chatting users."""
+        active_users = len(self.active_connections)
+        waiting_users = len(self.waiting_users)
+        chatting_users = len(self.chat_pairs)
+        return {"active_users": active_users, "waiting_users": waiting_users, "chatting_users": chatting_users}
+
 
 manager = ConnectionManager()
 
@@ -126,3 +133,8 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, campus: str, pr
                 "type": "system",
                 "message": "Your chat partner has disconnected."
             })
+
+# Endpoint to fetch user stats (active, waiting, chatting users)
+@app.get("/user-stats")
+async def get_user_stats():
+    return manager.get_user_stats()

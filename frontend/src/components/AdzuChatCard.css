@@ -131,7 +131,12 @@
   padding: 0.7rem 0.9rem;
   font-size: 0.85rem;
 }
-
+.adzu-user-status {
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 0px 10px;
+}
 /* Responsive styles */
 @media (min-width: 640px) {
   .adzu-card {
