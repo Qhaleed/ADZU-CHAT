@@ -10,7 +10,7 @@ const AdzuChatCard = () => {
         <div className="adzu-card">
             <div className="adzu-card-logo">
                 <div className="adzu-logo-wrapper">
-                    <img src="./ADZU-CHAT.jpg" alt="ADZU CHAT Logo" className="adzu-logo-image" />
+                    <img src="./LOGO-2.jpg" alt="ADZU CHAT Logo" className="adzu-logo-image" />
                 </div>
             </div>
 
