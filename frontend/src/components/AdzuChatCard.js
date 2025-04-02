@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./AdzuChatCard.css"
-import BACKEND_URL from "../config";
 const AdzuChatCard = () => {
     const [campus, setCampus] = useState("Main Campus");
     const [preference, setPreference] = useState("None");
@@ -13,7 +12,7 @@ const AdzuChatCard = () => {
     useEffect(() => {
         const fetchUserStats = async () => {
             try {
-                const response = await fetch(`${BACKEND_URL}/user-stats`); // Adjust with correct backend URL
+                const response = await fetch("http://localhost:8000/user-stats"); // Adjust with correct backend URL
                 const data = await response.json();
                 setActiveUsers(data.active_users);
                 setWaitingUsers(data.waiting_users);
