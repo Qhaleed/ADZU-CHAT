@@ -13,7 +13,7 @@ const AdzuChatCard = () => {
     useEffect(() => {
         const fetchUserStats = async () => {
             try {
-                const response = await fetch(`http://${BACKEND_URL}/user-stats`); // Adjust with correct backend URL
+                const response = await fetch(`${BACKEND_URL}/user-stats`); // Adjust with correct backend URL
                 const data = await response.json();
                 setActiveUsers(data.active_users);
                 setWaitingUsers(data.waiting_users);
