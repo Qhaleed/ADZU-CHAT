@@ -133,3 +133,6 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, campus: str, pr
 @app.get("/user-stats")
 async def get_user_stats():
     return manager.get_user_stats()
+@app.get("/")
+async def root():
+    return {"message": "Welcome to ADZU-Chat Backend!"}
