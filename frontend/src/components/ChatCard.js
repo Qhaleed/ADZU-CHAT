@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ChatCard.css';
 import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-
+import BACKEND_URL from "../config";
 function ChatCard() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -28,7 +28,7 @@ function ChatCard() {
 
   useEffect(() => {
     // Create the WebSocket connection using campus and preference in the path
-    const ws = new WebSocket(`ws://localhost:8000/ws/${userId.current}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
+    const ws = new WebSocket(`ws://${BACKEND_URL}/ws/${userId.current}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
     wsRef.current = ws;
 
     ws.onopen = () => {
