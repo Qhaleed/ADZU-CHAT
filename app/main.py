@@ -40,28 +40,24 @@ class ConnectionManager:
         if user_id in self.chat_pairs:
             paired_user = self.chat_pairs[user_id]
             del self.chat_pairs[user_id]
-            del self.chat_pairs[paired_user]
+            if paired_user in self.chat_pairs:  # Avoid KeyError
+                del self.chat_pairs[paired_user]
             return paired_user
         return None
 
     def pair_users(self, user1: str) -> Optional[str]:
-        """Pair user1 with any waiting user with matching campus and preference."""
-        if user1 not in self.waiting_users:
-            return None
+        """Pair user1 with any waiting user with matching campus and preference, ensuring only two users per chat."""
+        if user1 not in self.waiting_users or user1 in self.chat_pairs:
+            return None  # Ensure the user is not already chatting
 
         campus1, preference1 = self.waiting_users[user1]
 
-        # Lock the pairing to avoid race conditions
         with self.lock:
-            # Look for a match for user1 among waiting users
             for user2, (campus2, preference2) in self.waiting_users.items():
                 if user1 != user2 and campus1 == campus2 and preference1 == preference2:
-                    # Check if both users have active connections
-                    if user1 in self.active_connections and user2 in self.active_connections:
-                        # Pair user1 and user2
+                    if user2 not in self.chat_pairs:  # Ensure user2 is not already chatting
                         self.chat_pairs[user1] = user2
                         self.chat_pairs[user2] = user1
-                        # Remove both from waiting users
                         del self.waiting_users[user1]
                         del self.waiting_users[user2]
                         return user2
@@ -71,14 +67,12 @@ class ConnectionManager:
         """Send a message to the paired user, handle errors."""
         try:
             if sender in self.chat_pairs and receiver in self.active_connections:
-                # Send message to the receiver
                 await self.active_connections[receiver].send_json({
                     "type": "message",
                     "message": message
                 })
         except Exception as e:
             print(f"Error sending message: {e}")
-            # Handle error sending message (e.g., user disconnected)
             await self.disconnect(sender)
 
     async def receive_message(self, websocket: WebSocket, user_id: str):
@@ -97,10 +91,11 @@ class ConnectionManager:
 
     def get_user_stats(self):
         """Return the number of active, waiting, and chatting users."""
-        active_users = len(self.active_connections)
-        waiting_users = len(self.waiting_users)
-        chatting_users = len(self.chat_pairs)
-        return {"active_users": active_users, "waiting_users": waiting_users, "chatting_users": chatting_users}
+        return {
+            "active_users": len(self.active_connections),
+            "waiting_users": len(self.waiting_users),
+            "chatting_users": len(self.chat_pairs) // 2  # Each chat has 2 users
+        }
 
 
 manager = ConnectionManager()
