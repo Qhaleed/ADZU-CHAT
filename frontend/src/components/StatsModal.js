@@ -34,6 +34,7 @@ const StatsModal = () => {
 
     return (
         <div className="stats-modal">
+            <p>Debug</p>
             <p>Active Users: <span>{stats.total_online}</span></p>
             <p>Waiting Queue: <span>{stats.total_waiting}</span></p>
             <p>Active Chats: <span>{stats.total_active_chats}</span></p>
