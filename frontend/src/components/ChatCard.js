@@ -28,7 +28,8 @@ function ChatCard() {
 
   useEffect(() => {
     // Create the WebSocket connection using campus and preference in the path
-    const ws = new WebSocket(`ws://localhost:8000/ws/${userId.current}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
+    const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8000'; // Default to localhost for local development
+    const ws = new WebSocket(`${wsUrl}/ws/${userId.current}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
 
     wsRef.current = ws;
 
