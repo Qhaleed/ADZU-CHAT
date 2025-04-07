@@ -8,11 +8,18 @@ const StatsModal = () => {
     });
 
     // Function to fetch stats
+    const wsURL = process.env.REACT_APP_WS_URL;
     const fetchStats = async () => {
         try {
-            const response = await fetch("http://localhost:8000/stats");
+            const response = await fetch(`${wsURL}/user-stats`);
             const data = await response.json();
+            console.log("Fetched stats:", data)
             setStats(data);
+            setStats({
+                total_online: data.active_users,
+                total_waiting: data.waiting_users,
+                total_active_chats: data.chatting_users
+            });
         } catch (error) {
             console.error("Failed to fetch chat stats", error);
         }
