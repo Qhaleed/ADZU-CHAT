@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { config } from '../config';
-import "./AdzuChatCard.css"
+import "./AdzuChatCard.css";
+
 const AdzuChatCard = () => {
     const [campus, setCampus] = useState("Main Campus");
     const [preference, setPreference] = useState("None");
@@ -9,9 +10,10 @@ const AdzuChatCard = () => {
     const [waitingUsers, setWaitingUsers] = useState(0);
     const [chattingUsers, setChattingUsers] = useState(0);
 
-    // Fetch user stats on component mount
+    // Fetch user stats every 5 seconds
     useEffect(() => {
         const backendURL = "https://adzu-chat.onrender.com";
+
         const fetchUserStats = async () => {
             try {
                 const response = await fetch(`${backendURL}/user-stats`);
@@ -24,8 +26,16 @@ const AdzuChatCard = () => {
             }
         };
 
+        // Fetch immediately on mount
         fetchUserStats();
-    }, []);
+
+        // Set an interval to fetch user stats every 5 seconds
+        const intervalId = setInterval(fetchUserStats, 5000);
+
+        // Cleanup interval on component unmount
+        return () => clearInterval(intervalId);
+
+    }, []);  // Empty dependency array ensures this effect only runs once (on mount)
 
     return (
         <div className="adzu-card">
