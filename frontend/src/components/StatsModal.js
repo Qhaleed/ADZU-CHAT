@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import "./StatsModal.css";
 const StatsModal = () => {
     const [stats, setStats] = useState({
-        total_online: 0,
-        total_waiting: 0,
-        total_active_chats: 0
+        total_online: 8,
+        total_waiting: 3,
+        total_active_chats: 2
     });
 
     // Function to fetch stats
