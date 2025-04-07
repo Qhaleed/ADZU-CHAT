@@ -11,9 +11,10 @@ const AdzuChatCard = () => {
 
     // Fetch user stats on component mount
     useEffect(() => {
+        const backendURL = "https://adzu-chat.onrender.com";
         const fetchUserStats = async () => {
             try {
-                const response = await fetch("http://localhost:8000/user-stats"); // Adjust with correct backend URL
+                const response = await fetch(`${backendURL}/user-stats`);
                 const data = await response.json();
                 setActiveUsers(data.active_users);
                 setWaitingUsers(data.waiting_users);
