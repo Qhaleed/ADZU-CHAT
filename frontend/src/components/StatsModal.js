@@ -8,7 +8,7 @@ const StatsModal = () => {
     });
 
     // Function to fetch stats
-    const backendURL = process.env.REACT_APP_URL;
+    const backendURL = "https://adzu-chat.onrender.com";
     const fetchStats = async () => {
         try {
             const response = await fetch(`${backendURL}/user-stats`);
