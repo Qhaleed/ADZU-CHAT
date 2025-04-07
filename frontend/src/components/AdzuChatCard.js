@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { config } from '../config';
 import "./AdzuChatCard.css"
 const AdzuChatCard = () => {
     const [campus, setCampus] = useState("Main Campus");
