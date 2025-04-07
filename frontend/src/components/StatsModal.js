@@ -14,7 +14,6 @@ const StatsModal = () => {
             const response = await fetch(`${backendURL}/user-stats`);
             const data = await response.json();
             console.log("Fetched stats:", data)
-            setStats(data);
             setStats({
                 total_online: data.active_users,
                 total_waiting: data.waiting_users,
