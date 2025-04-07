@@ -28,6 +28,7 @@ const StatsModal = () => {
     useEffect(() => {
         fetchStats(); // Fetch initially
         const interval = setInterval(fetchStats, 5000);
+        console.log("Fetching stats again...");
         return () => clearInterval(interval); // Cleanup interval
     }, []);
 
