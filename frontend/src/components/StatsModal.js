@@ -11,7 +11,7 @@ const StatsModal = () => {
     const backendURL = process.env.REACT_APP_URL;
     const fetchStats = async () => {
         try {
-            const response = await fetch(`${backendURL}user-stats`);
+            const response = await fetch(`${backendURL}/user-stats`);
             const data = await response.json();
             console.log("Fetched stats:", data)
             setStats(data);
