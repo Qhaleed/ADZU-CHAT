@@ -171,7 +171,7 @@
   }
 
   .chat-body {
-    height: 40vh; /* Increase vertical space for messages */
+    height: 50vh; /* Increase vertical space for messages */
     padding: 10px;
     border-width: 0.5px;
   }
