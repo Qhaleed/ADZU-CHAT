@@ -167,7 +167,7 @@
 
   .tag {
     padding: 4px 10px;
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .chat-body {
@@ -179,7 +179,7 @@
   .message-bubble {
     padding: 8px 10px;
     max-width: 80%;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .chat-input {
@@ -189,7 +189,7 @@
 
   .chat-input input {
     padding: 6px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .emoji-button,
