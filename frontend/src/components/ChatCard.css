@@ -83,6 +83,9 @@
   font-size: 0.9em;
 }
 
+.message.user .message-bubble {
+  background-color: #6a79a0;
+}
 .message-bubble {
   background-color: #5d76b5;
   color: white;
@@ -109,7 +112,8 @@
   font-size: 14px;
 }
 
-.emoji-button, .send-button {
+.emoji-button,
+.send-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -126,7 +130,7 @@
 }
 
 .tag.connected {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
@@ -139,8 +143,8 @@
 /* Mobile Styles */
 @media screen and (max-width: 600px) {
   .chat-card {
-    width: 90vw;           /* Use 90% of viewport width */
-    margin: 0 auto;        /* Center the card horizontally */
+    width: 90vw; /* Use 90% of viewport width */
+    margin: 0 auto; /* Center the card horizontally */
     padding: 0.5rem;
     border: none;
     border-radius: 0.5rem; /* Add a slight border radius for better aesthetics */
@@ -167,7 +171,7 @@
   }
 
   .chat-body {
-    height: 60vh;  /* Increase vertical space for messages */
+    height: 60vh; /* Increase vertical space for messages */
     padding: 10px;
     border-width: 0.5px;
   }
@@ -188,7 +192,8 @@
     font-size: 14px;
   }
 
-  .emoji-button, .send-button {
+  .emoji-button,
+  .send-button {
     font-size: 16px;
     padding: 4px;
   }
