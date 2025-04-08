@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ChatCard.css';
 import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { config } from '../config';
 function ChatCard() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
