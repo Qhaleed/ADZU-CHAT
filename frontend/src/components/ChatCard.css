@@ -96,6 +96,7 @@
 }
 
 .chat-input {
+  position: relative;
   display: flex;
   align-items: center;
   margin-top: 10px;
@@ -109,16 +110,31 @@
   border: none;
   padding: 8px;
   outline: none;
+  padding-right: 40px;
   font-size: 14px;
 }
 
-.emoji-button,
-.send-button {
+.emoji-button {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 18px;
   padding: 5px;
+}
+.send-button {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  border-radius: 50%;
+  z-index: 10;
 }
 
 .emoji-button {

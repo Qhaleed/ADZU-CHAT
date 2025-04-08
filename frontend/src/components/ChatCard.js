@@ -123,7 +123,6 @@ function ChatCard() {
 
       <form className="chat-input" onSubmit={handleSubmit}>
         <button type="button" className="emoji-button">
-          <span role="img" aria-label="emoji">😊</span>
         </button>
         <input
           type="text"
