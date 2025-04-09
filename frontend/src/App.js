@@ -4,6 +4,9 @@ import LandingPage from "./pages/Landing.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import NotFound from "./pages/NotFound.js";
+import { inject } from '@vercel/analytics';
+
+inject();
 function App() {
   return (
     <div className="app-container">

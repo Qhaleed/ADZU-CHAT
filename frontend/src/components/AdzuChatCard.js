@@ -66,7 +66,8 @@ const AdzuChatCard = () => {
                                 onChange={(e) => setCampus(e.target.value)}
                             >
                                 <option>Main Campus</option>
-                                <option>Tetuan Campus</option>
+                                {/* Temporary remove Tumaga Campus */}
+                                {/* <option>Tetuan Campus</option> */}
                             </select>
                         </div>
                     </div>
