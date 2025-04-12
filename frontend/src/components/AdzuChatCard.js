@@ -120,7 +120,7 @@ const AdzuChatCard = () => {
                         </button>
                         {showHiddenNote && (
                             <p>
-                                This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University. The developer is not responsible for any misuse, issues, or consequences arising from its use.
+                                This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University. The developer/s are not responsible for any misuse, issues, or consequences arising from its use.
                             </p>
                         )}
                     </div>
