@@ -88,13 +88,13 @@ const AdzuChatCard = () => {
                                 {/* Disabled options */}
                                 <option>BSN</option>
                                 <option>SITEAO</option>
-                                <option disabled>AAO</option>
-                                <option disabled>LAAO</option>
-                                <option disabled>COL</option>
-                                <option disabled>SOM</option>
-                                <option disabled>EAO</option>
-                                <option disabled>MAO</option>
-                                <option disabled>ALUMNI</option>
+                                <option>AAO</option>
+                                <option>LAAO</option>
+                                <option>COL</option>
+                                <option>SOM</option>
+                                <option>EAO</option>
+                                <option>MAO</option>
+                                <option>ALUMNI</option>
                             </select>
                         </div>
                     </div>
