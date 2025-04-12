@@ -84,8 +84,9 @@
 }
 
 .message.user .message-bubble {
-  background-color: #6a79a0;
+  background-color: green;
 }
+
 .message-bubble {
   background-color: #5d76b5;
   color: white;

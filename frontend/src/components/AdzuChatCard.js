@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { config } from '../config';
+import { FaGithub } from 'react-icons/fa';
 import "./AdzuChatCard.css";
 
 const AdzuChatCard = () => {
@@ -9,6 +10,7 @@ const AdzuChatCard = () => {
     const [activeUsers, setActiveUsers] = useState(0);
     const [waitingUsers, setWaitingUsers] = useState(0);
     const [chattingUsers, setChattingUsers] = useState(0);
+    const [showHiddenNote, setShowHiddenNote] = useState(false);
 
     // Fetch user stats every 5 seconds
     useEffect(() => {
@@ -51,9 +53,11 @@ const AdzuChatCard = () => {
                     <div className="adzu-beta-badge">Beta</div>
                 </div>
 
+
                 <p className="adzu-description">
                     An open source local anonymous chat made for students of the Ateneo de Zamboanga University.
                 </p>
+
 
                 <div className="adzu-form-grid">
                     {/* Campus Selection */}
@@ -67,7 +71,7 @@ const AdzuChatCard = () => {
                             >
                                 <option>Main Campus</option>
                                 {/* Temporary remove Tumaga Campus */}
-                                {/* <option>Tetuan Campus</option> */}
+                                <option disabled>Tumaga Campus</option>
                             </select>
                         </div>
                     </div>
@@ -82,15 +86,16 @@ const AdzuChatCard = () => {
                                 onChange={(e) => setPreference(e.target.value)}
                             >
                                 <option>None</option>
-                                <option>BSN</option>
-                                <option>SITEAO</option>
-                                <option>AAO</option>
-                                <option>LAAO</option>
-                                <option>COL</option>
-                                <option>SOM</option>
-                                <option>EAO</option>
-                                <option>MAO</option>
-                                <option>ALUMNI</option>
+                                {/* Disabled options */}
+                                <option disabled>BSN</option>
+                                <option disabled>SITEAO</option>
+                                <option disabled>AAO</option>
+                                <option disabled>LAAO</option>
+                                <option disabled>COL</option>
+                                <option disabled>SOM</option>
+                                <option disabled>EAO</option>
+                                <option disabled>MAO</option>
+                                <option disabled>ALUMNI</option>
                             </select>
                         </div>
                     </div>
@@ -108,8 +113,25 @@ const AdzuChatCard = () => {
                 </div>
 
                 <div className="adzu-reminder-container">
-                    <p>Note: This is a beta version of the chat. Some features may not work as expected.</p>
+                    <p>Note: Some features may not work as expected, and the application is subject to ongoing development.</p>
+                    <div className="adzu-hidden-note">
+                        <button onClick={() => setShowHiddenNote(!showHiddenNote)}>
+                            {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
+                        </button>
+                        {showHiddenNote && (
+                            <p>
+                                This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University. The developer is not responsible for any misuse, issues, or consequences arising from its use.
+                            </p>
+                        )}
+                    </div>
                 </div>
+
+                <div className="adzu-github-link">
+                    <a href="https://github.com/Qhaleed/ADZU-CHAT" target="_blank" rel="noopener noreferrer">
+                        <FaGithub />
+                    </a>
+                </div>
+
             </div>
         </div>
     );
