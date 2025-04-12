@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import NotFound from "./pages/NotFound.js";
 import { inject } from '@vercel/analytics';
+import FAQs from "./pages/FAQs.js";
 
 inject();
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/chat" element={<ChatPage />} />
+          <Route path="/faqs" element={<FAQs />} />
           <Route path="*" element={<NotFound />} /> {/* 404 Page */}
 
         </Routes>

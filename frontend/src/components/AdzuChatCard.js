@@ -111,26 +111,26 @@ const AdzuChatCard = () => {
                     <p><strong>Chatting:</strong> {chattingUsers}</p>
                 </div>
 
+
                 <div className="adzu-reminder-container">
-                    <p>Note: Some features may not work as expected, and the application is subject to ongoing development.</p>
+                    <p>Note: This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University.</p>
                     <div className="adzu-hidden-note">
                         <button onClick={() => setShowHiddenNote(!showHiddenNote)}>
                             {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
                         </button>
                         {showHiddenNote && (
                             <p>
-                                This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University. The developer/s are not responsible for any misuse, issues, or consequences arising from its use.
+                                The developer/s are not responsible for any misuse, issues, or consequences arising from its use. Please note that "ADZU" is a reference to the Ateneo de Zamboanga University, and this application is not officially affiliated with or endorsed by the university.
                             </p>
                         )}
                     </div>
                 </div>
-
                 <div className="adzu-github-link">
                     <a href="https://github.com/Qhaleed/ADZU-CHAT" target="_blank" rel="noopener noreferrer">
                         <FaGithub />
                     </a>
                 </div>
-
+                <Link to="/faqs" className="faqs-link">Frequently Asked Questions</Link>
             </div>
         </div>
     );
