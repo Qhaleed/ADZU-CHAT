@@ -137,8 +137,9 @@
   border-radius: 50%;
   z-index: 10;
 }
-.send-button:hover {
-  background-color: none;
+.send-button:focus {
+  outline: none;
+  background-color: transparent;
 }
 
 .emoji-button {
