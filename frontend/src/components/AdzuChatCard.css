@@ -24,8 +24,8 @@
 
 .adzu-logo-wrapper {
   width: 100%;
-  max-width: 250px;
-  aspect-ratio: 1 / 1;
+  height: 100%;
+  aspect-ratio: 1/1;
 }
 
 .adzu-logo-image {

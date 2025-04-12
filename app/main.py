@@ -113,9 +113,17 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, campus: str, pr
                 "type": "system",
                 "message": "Connected to a chat partner!"
             })
+            await manager.active_connections[user_id].send_json({
+                "type": "system",
+                "message": "To help you stay safe, chats are anonymous unless you tell someone who you are (not recommended!), and you can stop a chat at any time."
+            })
             await manager.active_connections[paired_user].send_json({
                 "type": "system",
                 "message": "Connected to a chat partner!"
+            })
+            await manager.active_connections[paired_user].send_json({
+                "type": "system",
+                "message": "To help you stay safe, chats are anonymous unless you tell someone who you are (not recommended!), and you can stop a chat at any time."
             })
 
         while True:
