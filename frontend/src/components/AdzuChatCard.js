@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { config } from '../config';
 import { FaGithub } from 'react-icons/fa';
 import "./AdzuChatCard.css";
 
