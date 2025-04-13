@@ -10,4 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping my website
-        run: curl -s https://adzu-chat-frontend.vercel.app/
+        run: |
+          for i in {1..5}; do
+            curl -s https://adzu-chat-frontend.vercel.app/ && break || sleep 10;
+          done
