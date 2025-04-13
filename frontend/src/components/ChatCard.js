@@ -1,12 +1,55 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom/client';
 import './ChatCard.css';
 import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+
+const StyledAlert = ({ message, onConfirm }) => {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: '#f8f9fa',
+      border: '1px solid #dee2e6',
+      borderRadius: '8px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      padding: '20px',
+      zIndex: 1000,
+      textAlign: 'center',
+      fontFamily: 'Arial, sans-serif',
+      color: '#343a40',
+      width: '90%', // Make it responsive
+      maxWidth: '400px', // Limit the maximum width
+    }}>
+      <p style={{ marginBottom: '20px', fontSize: '16px' }}>{message}</p>
+      {/* <button
+        onClick={onConfirm}
+        style={{
+          backgroundColor: '#007bff',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '4px',
+          padding: '10px 20px',
+          cursor: 'pointer',
+          fontSize: '14px',
+          width: '100%', // Make button responsive
+          maxWidth: '200px', // Limit button width
+        }}
+      >
+        Confirm
+      </button> */}
+    </div>
+  );
+};
+
 function ChatCard() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [isWaiting, setIsWaiting] = useState(true);
+  const [noMatchTimeout, setNoMatchTimeout] = useState(null);
   const wsRef = useRef(null);
   const userId = useRef(uuidv4());
   const messagesEndRef = useRef(null);
@@ -34,10 +77,6 @@ function ChatCard() {
 
     ws.onopen = () => {
       setIsConnected(true);
-      // setMessages(prev => [
-      //   ...prev,
-      //   { text: 'Connected to server. Waiting for a partner...', sender: 'system' }
-      // ]);
     };
 
     ws.onmessage = (event) => {
@@ -50,6 +89,7 @@ function ChatCard() {
             setIsWaiting(true);
           } else if (data.message === 'Connected to a chat partner!') {
             setIsWaiting(false);
+            clearTimeout(noMatchTimeout); // Clear timeout if matched
           }
         } else if (data.type === 'message') {
           setMessages(prev => [...prev, { text: data.message, sender: 'user' }]);
@@ -65,10 +105,44 @@ function ChatCard() {
       setMessages(prev => [...prev, { text: 'Disconnected from server', sender: 'system' }]);
     };
 
+    // Set a timeout to prompt the user to change preference after 15 seconds
+    const timeout = setTimeout(() => {
+      if (isWaiting && preference !== 'None') {
+        const userConfirmed = new Promise((resolve) => {
+          const alertContainer = document.createElement('div');
+          document.body.appendChild(alertContainer);
+
+          const handleConfirm = () => {
+            resolve(true);
+            document.body.removeChild(alertContainer);
+          };
+
+          const root = ReactDOM.createRoot(alertContainer);
+          root.render(
+            <StyledAlert
+              message="No match found. Would you like to change your preference to 'None' to make pairing faster?"
+              onConfirm={handleConfirm}
+            />
+          );
+        });
+
+        userConfirmed.then((confirmed) => {
+          if (confirmed) {
+            const params = new URLSearchParams(location.search);
+            params.set("preference", "None");
+            window.location.search = params.toString();
+          }
+        });
+      }
+    }, 15000);
+
+    setNoMatchTimeout(timeout);
+
     return () => {
       if (ws.readyState === WebSocket.OPEN) {
         ws.close();
       }
+      clearTimeout(timeout); // Cleanup timeout on unmount
     };
   }, [campus, preference]);
 
