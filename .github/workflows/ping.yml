@@ -2,7 +2,7 @@ name: Ping Website
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '* * * * *'  # Every minute
   workflow_dispatch:
 
 jobs:
