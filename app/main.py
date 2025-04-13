@@ -141,3 +141,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, campus: str, pr
 @app.get("/user-stats")
 async def get_user_stats():
     return manager.get_user_stats()
+
+@app.get("/ping")
+async def ping():
+    return {"status": "ok"}
