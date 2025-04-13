@@ -24,7 +24,7 @@ const StyledAlert = ({ message, onConfirm }) => {
       maxWidth: '400px', // Limit the maximum width
     }}>
       <p style={{ marginBottom: '20px', fontSize: '16px' }}>{message}</p>
-      {/* <button
+      <button
         onClick={onConfirm}
         style={{
           backgroundColor: '#007bff',
@@ -39,7 +39,7 @@ const StyledAlert = ({ message, onConfirm }) => {
         }}
       >
         Confirm
-      </button> */}
+      </button>
     </div>
   );
 };
