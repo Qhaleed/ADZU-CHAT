@@ -3,6 +3,10 @@ from typing import Dict, Tuple, Optional
 import json
 import threading
 from fastapi.middleware.cors import CORSMiddleware
+from better_profanity import profanity
+
+# Initialize the profanity filter
+profanity.load_censor_words()
 
 app = FastAPI()
 
@@ -14,6 +18,48 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Message Filter class to handle content moderation
+class MessageFilter:
+    def __init__(self):
+        # Add custom words to the filter if needed
+        self.custom_badwords = ["additional_slur1", "additional_slur2"]
+        profanity.add_censor_words(self.custom_badwords)
+    
+    def filter_message(self, message: str) -> str:
+        """Filter inappropriate content from messages."""
+        # Replace profanity with asterisks
+        return profanity.censor(message)
+    
+    def contains_profanity(self, message: str) -> bool:
+        """Check if a message contains profanity."""
+        return profanity.contains_profanity(message)
+        
+    def add_custom_word(self, word: str) -> bool:
+        """Add a custom word to the filter."""
+        if word not in self.custom_badwords:
+            self.custom_badwords.append(word)
+            profanity.add_censor_words([word])
+            return True
+        return False
+        
+    def remove_custom_word(self, word: str) -> bool:
+        """Remove a custom word from the filter."""
+        if word in self.custom_badwords:
+            self.custom_badwords.remove(word)
+            # Note: better_profanity doesn't have a direct method to remove words,
+            # so we'd need to reload and re-add our custom list without this word
+            profanity.load_censor_words()
+            profanity.add_censor_words(self.custom_badwords)
+            return True
+        return False
+        
+    def get_custom_words(self) -> list:
+        """Get the list of custom bad words."""
+        return self.custom_badwords
+
+# Initialize the message filter
+message_filter = MessageFilter()
 
 # Connection Manager to handle WebSocket connections
 class ConnectionManager:
@@ -42,7 +88,12 @@ class ConnectionManager:
             del self.chat_pairs[user_id]
             if paired_user in self.chat_pairs:  # Avoid KeyError
                 del self.chat_pairs[paired_user]
-            return paired_user
+
+            # Notify the paired user and prevent re-pairing
+            if paired_user in self.active_connections:
+                self.waiting_users.pop(paired_user, None)  # Remove from waiting queue if present
+                return paired_user
+
         return None
 
     def pair_users(self, user1: str) -> Optional[str]:
@@ -67,9 +118,10 @@ class ConnectionManager:
         """Send a message to the paired user, handle errors."""
         try:
             if sender in self.chat_pairs and receiver in self.active_connections:
+                filtered_message = message_filter.filter_message(message)
                 await self.active_connections[receiver].send_json({
                     "type": "message",
-                    "message": message
+                    "message": filtered_message
                 })
         except Exception as e:
             print(f"Error sending message: {e}")
@@ -83,7 +135,18 @@ class ConnectionManager:
             if user_id in self.chat_pairs:
                 partner_id = self.chat_pairs[user_id]
                 if partner_id in self.active_connections:
-                    await self.send_message(user_id, partner_id, message_data["message"])
+                    original_message = message_data["message"]
+                    
+                    # Check if message contains profanity
+                    if message_filter.contains_profanity(original_message):
+                        # Send a warning to the sender
+                        await self.active_connections[user_id].send_json({
+                            "type": "system",
+                            "message": "⚠️ Your message contained inappropriate content and was filtered."
+                        })
+                        
+                    # Send filtered message to recipient
+                    await self.send_message(user_id, partner_id, original_message)
         except json.JSONDecodeError:
             print("Received malformed message:", data)
         except Exception as e:
@@ -145,3 +208,21 @@ async def get_user_stats():
 @app.get("/ping")
 async def ping():
     return {"status": "ok"}
+
+# Administrative endpoints for managing profanity filter
+@app.get("/filter/words")
+async def get_filter_words():
+    """Get the list of custom filtered words."""
+    return {"words": message_filter.get_custom_words()}
+
+@app.post("/filter/words/{word}")
+async def add_filter_word(word: str):
+    """Add a word to the profanity filter."""
+    success = message_filter.add_custom_word(word)
+    return {"success": success, "message": f"Word '{word}' added to filter" if success else f"Word '{word}' already in filter"}
+
+@app.delete("/filter/words/{word}")
+async def remove_filter_word(word: str):
+    """Remove a word from the profanity filter."""
+    success = message_filter.remove_custom_word(word)
+    return {"success": success, "message": f"Word '{word}' removed from filter" if success else f"Word '{word}' not in filter"}

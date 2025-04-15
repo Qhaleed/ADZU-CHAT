@@ -54,6 +54,7 @@ function ChatCard() {
   const userId = useRef(uuidv4());
   const messagesEndRef = useRef(null);
   const location = useLocation();
+  const [wasFiltered, setWasFiltered] = useState(false);
 
   const [shouldShowAlert, setShouldShowAlert] = useState(true); //showed alert tracker
 
@@ -88,6 +89,14 @@ function ChatCard() {
 
         if (data.type === 'system') {
           setMessages(prev => [...prev, { text: data.message, sender: 'system' }]);
+
+          // Check if this is a filtered content notification
+          if (data.message.includes('inappropriate content') && data.message.includes('filtered')) {
+            setWasFiltered(true);
+            // Reset the flag after a short period
+            setTimeout(() => setWasFiltered(false), 3000);
+          }
+
           if (data.message === 'Your chat partner has disconnected.') {
             setIsWaiting(true);
           } else if (data.message === 'Connected to a chat partner!') {
@@ -191,6 +200,27 @@ function ChatCard() {
           >
             Change Now
           </button>
+        </div>
+      )}
+
+      {wasFiltered && (
+        <div style={{
+          backgroundColor: '#f8d7da',
+          borderLeft: '4px solid #f5c6cb',
+          padding: '10px 15px',
+          margin: '0px 0',
+          marginBottom: '5px',
+          borderRadius: '4px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: '15px',
+          color: '#721c24'
+        }}>
+          <div>
+            <i className="fas fa-exclamation-circle" style={{ marginRight: '8px', color: '#721c24' }}></i>
+            A message was filtered due to inappropriate content.
+          </div>
         </div>
       )}
 
