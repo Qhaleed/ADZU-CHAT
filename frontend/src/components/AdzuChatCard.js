@@ -130,7 +130,8 @@ const AdzuChatCard = () => {
                         <FaGithub />
                     </a>
                 </div>
-                <Link to="/faqs" className="faqs-link">Frequently Asked Questions</Link>
+                {/* Temporarily removed github link */}
+                {/* <Link to="/faqs" className="faqs-link">Frequently Asked Questions</Link> */}
             </div>
         </div>
     );
