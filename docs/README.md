@@ -1,89 +1,151 @@
-# ADZU Chat Backend Documentation
+# ADZU Chat Documentation
 
 ## Overview
-This is a simple WebSocket-based backend for an anonymous chat application designed for Ateneo de Zamboanga University students. The system allows for anonymous one-to-one chat connections without storing any message history.
+
+ADZU Chat is an open-source anonymous chat platform designed for students of Ateneo de Zamboanga University. It allows users to connect anonymously and chat in real-time without storing any message history.
+
+## Features
+
+- Anonymous one-to-one chat.
+- Real-time WebSocket-based communication.
+- User preferences for campus and course.
+- Responsive and modern UI.
+- Secure and private communication.
 
 ## Technical Stack
-- FastAPI
-- WebSockets
-- Python 3.7+
 
-## Core Components
-
-### ConnectionManager
-The main class that handles all WebSocket connections and user pairing logic.
-
-#### Key Attributes:
-- `active_connections`: Dictionary storing active WebSocket connections
-- `waiting_users`: Set of users waiting to be paired
-- `chat_pairs`: Dictionary storing current chat partnerships
-
-#### Key Methods:
-- `connect()`: Handles new WebSocket connections
-- `disconnect()`: Manages user disconnections
-- `pair_users()`: Pairs waiting users together
-
-## Data Flow
-
-1. **Connection Establishment**
-   - User connects via WebSocket
-   - System assigns unique user ID
-   - User added to waiting pool
-
-2. **User Pairing**
-   - System automatically pairs waiting users
-   - Both users notified of successful connection
-
-3. **Message Exchange**
-   - Messages sent through WebSocket
-   - No message storage/history
-   - Direct user-to-user communication
-
-4. **Disconnection Handling**
-   - Automatic cleanup of connections
-   - Partner notification of disconnection
-   - Users returned to waiting pool if reconnected
-
-## API Endpoints
-
-### WebSocket: `/ws/{user_id}`
-- Handles all chat functionality
-- Accepts WebSocket connections
-- Manages message routing between paired users
-
-## Message Types
-
-1. **System Messages**
-   ```json
-   {
-       "type": "system",
-       "message": "System notification text"
-   }
-   ```
-
-2. **Chat Messages**
-   ```json
-   {
-       "type": "message",
-       "message": "User message content"
-   }
-   ```
+- **Frontend**: React.js
+- **Backend**: FastAPI, WebSockets
+- **Deployment**: Vercel (Frontend), Render (Backend)
 
 ## Setup Instructions
 
-1. Install dependencies:
+### Backend
+
+1. **Create a virtual environment**:
    ```bash
-   pip install fastapi uvicorn websockets
+   python -m venv venv
+   ```
+2. **Activate the virtual environment**:
+   ```bash
+   .\venv\Scripts\Activate.ps1  # For Windows
+   source venv/bin/activate       # For Linux/Mac
+   ```
+3. **Install dependencies**:
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
+4. **Run the server**:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+   - If there is a port conflict, specify a different port:
+     ```bash
+     uvicorn app.main:app --reload --port 8001
+     ```
+
+### Frontend
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+2. **Start the development server**:
+   ```bash
+   npm start
    ```
 
-2. Run the server:
-   ```bash
-   uvicorn main:app --reload
+## API Endpoints
+
+### WebSocket: `/ws/{user_id}/{campus}/{preference}`
+
+- Handles all chat functionality.
+- Accepts WebSocket connections.
+- Manages message routing between paired users.
+
+### REST API: `/user-stats`
+
+- Returns the number of active, waiting, and chatting users.
+
+### REST API: `/ping`
+
+- Health check endpoint.
+
+## Frontend Components
+
+### `ChatCard`
+
+- Handles the chat interface and WebSocket connection.
+- Prompts users to change preferences if no match is found within 15 seconds.
+
+### `AdzuChatCard`
+
+- Landing page component for selecting campus and course preferences.
+- Displays real-time user statistics.
+
+### `StatsModal`
+
+- Fetches and displays user statistics (active users, waiting users, active chats).
+
+### `FAQs`
+
+- Provides answers to frequently asked questions about the platform.
+
+### `NotFound`
+
+- Displays a 404 error page for invalid routes.
+
+## Backend Logic
+
+### ConnectionManager
+
+- Manages WebSocket connections, waiting users, and chat pairs.
+- Key methods:
+  - `connect()`: Adds a user to active connections.
+  - `disconnect()`: Removes a user and cleans up their data.
+  - `pair_users()`: Pairs users with matching preferences.
+
+### Message Types
+
+1. **System Messages**:
+   ```json
+   {
+     "type": "system",
+     "message": "System notification text"
+   }
+   ```
+2. **Chat Messages**:
+   ```json
+   {
+     "type": "message",
+     "message": "User message content"
+   }
    ```
 
-3. Connect frontend to `ws://localhost:8000/ws/{user_id}`
+## Deployment
+
+### Frontend
+
+- Deployed on Vercel.
+- Ensure GitHub repository access is granted for private repositories.
+
+### Backend
+
+- Deployed on Render.
+- Ensure CORS is configured to allow requests from the frontend.
 
 ## Security Notes
-- No message persistence
-- Anonymous connections
-- No user identification stored 
+
+- No message persistence.
+- Anonymous connections.
+- No user identification stored.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Submit a pull request with a detailed description of your changes.
+
+## License
+
+This project is licensed under the MIT License.
