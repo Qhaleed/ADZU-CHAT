@@ -55,6 +55,9 @@ function ChatCard() {
   const messagesEndRef = useRef(null);
   const location = useLocation();
 
+  const [shouldShowAlert, setShouldShowAlert] = useState(true); //showed alert tracker
+
+
   // Extract campus and preference from URL parameters
   const params = new URLSearchParams(location.search);
   const campus = params.get("campus") || "Main Campus";
@@ -89,6 +92,7 @@ function ChatCard() {
             setIsWaiting(true);
           } else if (data.message === 'Connected to a chat partner!') {
             setIsWaiting(false);
+            setShouldShowAlert(false);
             clearTimeout(noMatchTimeout); // Clear timeout if matched
           }
         } else if (data.type === 'message') {
@@ -105,44 +109,10 @@ function ChatCard() {
       setMessages(prev => [...prev, { text: 'Disconnected from server', sender: 'system' }]);
     };
 
-    // Set a timeout to prompt the user to change preference after 15 seconds
-    const timeout = setTimeout(() => {
-      if (isWaiting && preference !== 'None') {
-        const userConfirmed = new Promise((resolve) => {
-          const alertContainer = document.createElement('div');
-          document.body.appendChild(alertContainer);
-
-          const handleConfirm = () => {
-            resolve(true);
-            document.body.removeChild(alertContainer);
-          };
-
-          const root = ReactDOM.createRoot(alertContainer);
-          root.render(
-            <StyledAlert
-              message="No match found. Would you like to change your preference to 'None' to make pairing faster?"
-              onConfirm={handleConfirm}
-            />
-          );
-        });
-
-        userConfirmed.then((confirmed) => {
-          if (confirmed) {
-            const params = new URLSearchParams(location.search);
-            params.set("preference", "None");
-            window.location.search = params.toString();
-          }
-        });
-      }
-    }, 15000);
-
-    setNoMatchTimeout(timeout);
-
     return () => {
       if (ws.readyState === WebSocket.OPEN) {
         ws.close();
       }
-      clearTimeout(timeout); // Cleanup timeout on unmount
     };
   }, [campus, preference]);
 
@@ -185,6 +155,44 @@ function ChatCard() {
           </button>
         </Link>
       </div>
+
+      {isWaiting && preference !== 'None' && (
+        <div style={{
+          backgroundColor: '#f8f9fa',
+          borderLeft: '4px solid #4285f4',
+          padding: '10px 15px',
+          margin: '0px 0',
+          marginBottom: '5px',
+          borderRadius: '4px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: '15px'
+        }}>
+          <div>
+            <i className="fas fa-info-circle" style={{ marginRight: '8px', color: '#4285f4' }}></i>
+            Can't find a match? Try setting your preference to "None" for faster matching.
+          </div>
+          <button
+            onClick={() => {
+              const newParams = new URLSearchParams(location.search);
+              newParams.set("preference", "None");
+              window.location.search = newParams.toString();
+            }}
+            style={{
+              backgroundColor: '#4285f4',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '5px 10px',
+              fontSize: '14px',
+              cursor: 'pointer'
+            }}
+          >
+            Change Now
+          </button>
+        </div>
+      )}
 
       <div className="chat-body">
         {messages.map((msg, index) => (
