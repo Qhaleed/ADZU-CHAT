@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaGithub } from 'react-icons/fa';
+import { v4 as uuidv4 } from 'uuid'; // We'll need to install this package
 import "./AdzuChatCard.css";
 
 const AdzuChatCard = () => {
@@ -9,9 +10,14 @@ const AdzuChatCard = () => {
     const [activeUsers, setActiveUsers] = useState(0);
     const [waitingUsers, setWaitingUsers] = useState(0);
     const [chattingUsers, setChattingUsers] = useState(0);
+    const [standbyUsers, setStandbyUsers] = useState(0);
     const [showHiddenNote, setShowHiddenNote] = useState(false);
+    const [userId] = useState(() => {
+        // Generate a unique ID for this user session
+        return uuidv4();
+    });
 
-    // Fetch user stats every 5 seconds
+    // Fetch user stats every 5 seconds and manage standby status
     useEffect(() => {
         const backendURL = process.env.REACT_APP_URL || "http://localhost:8000";
 
@@ -22,21 +28,89 @@ const AdzuChatCard = () => {
                 setActiveUsers(data.active_users);
                 setWaitingUsers(data.waiting_users);
                 setChattingUsers(data.chatting_users);
+                setStandbyUsers(data.standby_users);
             } catch (error) {
                 console.error("Error fetching user stats:", error);
             }
         };
 
+        // Register this user as standby
+        const registerStandby = async () => {
+            try {
+                await fetch(`${backendURL}/standby/${userId}`, {
+                    method: 'POST',
+                });
+                console.log("User registered as standby:", userId);
+            } catch (error) {
+                console.error("Error registering standby user:", error);
+            }
+        };
+
+        // Unregister standby user when component unmounts
+        const unregisterStandby = async () => {
+            try {
+                await fetch(`${backendURL}/standby/${userId}`, {
+                    method: 'DELETE',
+                });
+                console.log("User unregistered from standby:", userId);
+            } catch (error) {
+                console.error("Error unregistering standby user:", error);
+            }
+        };
+
+        // Send heartbeat to keep the standby session active
+        const sendHeartbeat = async () => {
+            try {
+                await fetch(`${backendURL}/standby/heartbeat/${userId}`, {
+                    method: 'POST',
+                });
+                console.log("Heartbeat sent for user:", userId);
+            } catch (error) {
+                console.error("Error sending heartbeat:", error);
+            }
+        };
+
+        // Handle browser close/refresh events
+        const handleBeforeUnload = (event) => {
+            // This sync call will run before the browser closes
+            const xhr = new XMLHttpRequest();
+            xhr.open("DELETE", `${backendURL}/standby/${userId}`, false);  // false makes it synchronous
+            try {
+                xhr.send();
+                console.log("User unregistered on page close:", userId);
+            } catch (e) {
+                console.error("Failed to unregister on page close:", e);
+            }
+
+            // Standard for modern browsers
+            event.preventDefault();
+            event.returnValue = '';
+        };
+
+        // Register immediately on mount
+        registerStandby();
+
         // Fetch immediately on mount
         fetchUserStats();
 
+        // Add event listener for beforeunload
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
         // Set an interval to fetch user stats every 5 seconds
-        const intervalId = setInterval(fetchUserStats, 5000);
+        const statsIntervalId = setInterval(fetchUserStats, 5000);
 
-        // Cleanup interval on component unmount
-        return () => clearInterval(intervalId);
+        // Set an interval to send heartbeat every 20 seconds
+        const heartbeatIntervalId = setInterval(sendHeartbeat, 20000);
 
-    }, []);  // Empty dependency array ensures this effect only runs once (on mount)
+        // Cleanup interval and unregister standby on component unmount
+        return () => {
+            clearInterval(statsIntervalId);
+            clearInterval(heartbeatIntervalId);
+            unregisterStandby();
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+
+    }, [userId]);  // Add userId to dependency array
 
     return (
         <div className="adzu-card">
@@ -109,6 +183,7 @@ const AdzuChatCard = () => {
                     <p><strong>Active Users:</strong> {activeUsers}</p>
                     <p><strong>Waiting Users:</strong> {waitingUsers}</p>
                     <p><strong>Chatting:</strong> {chattingUsers}</p>
+                    <p><strong>Chilling here:</strong> {standbyUsers}</p>
                 </div>
 
 

@@ -67,7 +67,9 @@ class ConnectionManager:
         self.active_connections: Dict[str, WebSocket] = {}  # Connected users
         self.waiting_users: Dict[str, Tuple[str, str]] = {}  # Waiting users
         self.chat_pairs: Dict[str, str] = {}  # Paired users
+        self.standby_users: Dict[str, float] = {}  # Users on the AdzuChatCard page with last heartbeat timestamp
         self.lock = threading.Lock()  # Lock to prevent race conditions
+        self.start_cleanup_thread()  # Start the cleanup thread
 
     async def connect(self, websocket: WebSocket, user_id: str, campus: str, preference: str):
         """Accept the websocket connection and add the user to active connections."""
@@ -152,12 +154,62 @@ class ConnectionManager:
         except Exception as e:
             print(f"Error processing message: {e}")
 
+    def add_standby_user(self, user_id: str):
+        """Add a user to the standby pool with current timestamp."""
+        import time
+        with self.lock:
+            self.standby_users[user_id] = time.time()
+            
+    def remove_standby_user(self, user_id: str):
+        """Remove a user from the standby pool."""
+        with self.lock:
+            if user_id in self.standby_users:
+                del self.standby_users[user_id]
+    
+    def update_standby_timestamp(self, user_id: str):
+        """Update the timestamp of a standby user."""
+        import time
+        with self.lock:
+            if user_id in self.standby_users:
+                self.standby_users[user_id] = time.time()
+    
+    def cleanup_stale_standby_users(self, timeout_seconds=60):
+        """Remove standby users that haven't pinged in the specified timeout period."""
+        import time
+        current_time = time.time()
+        stale_users = []
+        
+        with self.lock:
+            for user_id, last_seen in list(self.standby_users.items()):
+                if current_time - last_seen > timeout_seconds:
+                    stale_users.append(user_id)
+            
+            for user_id in stale_users:
+                del self.standby_users[user_id]
+                
+        if stale_users:
+            print(f"Cleaned up {len(stale_users)} stale standby users")
+    
+    def start_cleanup_thread(self):
+        """Start a background thread to periodically clean up stale standby users."""
+        import threading
+        import time
+        
+        def cleanup_task():
+            while True:
+                time.sleep(30)  # Check every 30 seconds
+                self.cleanup_stale_standby_users()
+        
+        cleanup_thread = threading.Thread(target=cleanup_task, daemon=True)
+        cleanup_thread.start()
+
     def get_user_stats(self):
         """Return the number of active, waiting, and chatting users."""
         return {
             "active_users": len(self.active_connections),
             "waiting_users": len(self.waiting_users),
-            "chatting_users": len(self.chat_pairs) // 2  # Each chat has 2 users
+            "chatting_users": len(self.chat_pairs) // 2,  # Each chat has 2 users
+            "standby_users": len(self.standby_users)  # Users on the AdzuChatCard page
         }
 
 
@@ -226,3 +278,21 @@ async def remove_filter_word(word: str):
     """Remove a word from the profanity filter."""
     success = message_filter.remove_custom_word(word)
     return {"success": success, "message": f"Word '{word}' removed from filter" if success else f"Word '{word}' not in filter"}
+
+@app.post("/standby/{user_id}")
+async def register_standby_user(user_id: str):
+    """Register a user as being on the AdzuChatCard page."""
+    manager.add_standby_user(user_id)
+    return {"success": True, "message": f"User {user_id} added to standby pool"}
+
+@app.delete("/standby/{user_id}")
+async def unregister_standby_user(user_id: str):
+    """Unregister a user from the AdzuChatCard page."""
+    manager.remove_standby_user(user_id)
+    return {"success": True, "message": f"User {user_id} removed from standby pool"}
+
+@app.post("/standby/heartbeat/{user_id}")
+async def standby_heartbeat(user_id: str):
+    """Update the timestamp for a standby user to prevent timeout."""
+    manager.update_standby_timestamp(user_id)
+    return {"success": True, "message": f"Heartbeat received for user {user_id}"}
