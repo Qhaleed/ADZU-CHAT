@@ -51,7 +51,18 @@ function ChatCard() {
   const [isWaiting, setIsWaiting] = useState(true);
   const [noMatchTimeout, setNoMatchTimeout] = useState(null);
   const wsRef = useRef(null);
-  const userId = useRef(uuidv4());
+  const [userId] = useState(() => {
+    // Check if we already have a UUID stored in localStorage
+    const storedId = localStorage.getItem('adzu-chat-user-id');
+    if (storedId) {
+      return storedId;
+    }
+
+    // Generate a new unique ID and store it
+    const newId = uuidv4();
+    localStorage.setItem('adzu-chat-user-id', newId);
+    return newId;
+  });
   const messagesEndRef = useRef(null);
   const location = useLocation();
   const [wasFiltered, setWasFiltered] = useState(false);
@@ -75,7 +86,7 @@ function ChatCard() {
   useEffect(() => {
     // Create the WebSocket connection using campus and preference in the path
     const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8000'; // Default to localhost for local development
-    const ws = new WebSocket(`${wsUrl}/ws/${userId.current}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
+    const ws = new WebSocket(`${wsUrl}/ws/${userId}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
 
     wsRef.current = ws;
 
@@ -123,7 +134,7 @@ function ChatCard() {
         ws.close();
       }
     };
-  }, [campus, preference]);
+  }, [campus, preference, userId]);  // Added userId to dependency array
 
   const handleInputChange = (e) => {
     setMessage(e.target.value);

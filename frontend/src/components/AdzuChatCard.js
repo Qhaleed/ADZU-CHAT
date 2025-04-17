@@ -13,8 +13,16 @@ const AdzuChatCard = () => {
     const [standbyUsers, setStandbyUsers] = useState(0);
     const [showHiddenNote, setShowHiddenNote] = useState(false);
     const [userId] = useState(() => {
-        // Generate a unique ID for this user session
-        return uuidv4();
+        // Check if we already have a UUID stored in localStorage
+        const storedId = localStorage.getItem('adzu-chat-user-id');
+        if (storedId) {
+            return storedId;
+        }
+
+        // Generate a new unique ID and store it
+        const newId = uuidv4();
+        localStorage.setItem('adzu-chat-user-id', newId);
+        return newId;
     });
 
     // Fetch user stats every 5 seconds and manage standby status
