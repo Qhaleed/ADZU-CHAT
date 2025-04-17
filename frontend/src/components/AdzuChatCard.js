@@ -13,7 +13,7 @@ const AdzuChatCard = () => {
 
     // Fetch user stats every 5 seconds
     useEffect(() => {
-        const backendURL = "https://adzu-chat.onrender.com";
+        const backendURL = process.env.REACT_APP_URL || "http://localhost:8000";
 
         const fetchUserStats = async () => {
             try {
