@@ -167,10 +167,10 @@ const AdzuChatCard = () => {
                                 onChange={(e) => setPreference(e.target.value)}
                             >
                                 <option>None</option>
-                                {/* Disabled options */}
-                                <option>BSN</option>
+                                <option>NAO</option>
                                 <option>SITEAO</option>
                                 <option>AAO</option>
+                                <option>SHS</option>
                                 <option>LAAO</option>
                                 <option>COL</option>
                                 <option>SOM</option>
