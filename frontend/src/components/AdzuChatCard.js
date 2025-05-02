@@ -48,9 +48,9 @@ const AdzuChatCard = () => {
                 await fetch(`${backendURL}/standby/${userId}`, {
                     method: 'POST',
                 });
-                console.log("User registered as standby:", userId);
+                // console.log("User registered as standby:", userId);
             } catch (error) {
-                console.error("Error registering standby user:", error);
+                // console.error("Error registering standby user:", error);
             }
         };
 
@@ -60,9 +60,9 @@ const AdzuChatCard = () => {
                 await fetch(`${backendURL}/standby/${userId}`, {
                     method: 'DELETE',
                 });
-                console.log("User unregistered from standby:", userId);
+                // console.log("User unregistered from standby:", userId);
             } catch (error) {
-                console.error("Error unregistering standby user:", error);
+                // console.error("Error unregistering standby user:", error);
             }
         };
 
@@ -72,9 +72,9 @@ const AdzuChatCard = () => {
                 await fetch(`${backendURL}/standby/heartbeat/${userId}`, {
                     method: 'POST',
                 });
-                console.log("Heartbeat sent for user:", userId);
+                // console.log("Heartbeat sent for user:", userId);
             } catch (error) {
-                console.error("Error sending heartbeat:", error);
+                // console.error("Error sending heartbeat:", error);
             }
         };
 
@@ -131,7 +131,7 @@ const AdzuChatCard = () => {
             <div className="adzu-card-content">
                 <div className="adzu-title-wrapper">
                     <h1 className="adzu-title">ADZU CHAT</h1>
-                    <div className="adzu-beta-badge">Beta</div>
+                    <div className="adzu-beta-badge">Beta 0.2</div>
                 </div>
 
 
