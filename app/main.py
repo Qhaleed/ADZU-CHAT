@@ -13,8 +13,8 @@ app = FastAPI()
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Your React frontend URL
-    allow_credentials=True,
+    allow_origins=["https://adzu-chat-frontend.vercel.app", "http://localhost:8080"],  # Your React frontend URL
+    allow_credentials=True, 
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -208,7 +208,7 @@ class ConnectionManager:
         return {
             "active_users": len(self.active_connections),
             "waiting_users": len(self.waiting_users),
-            "chatting_users": len(self.chat_pairs) // 2,  # Each chat has 2 users
+            "chatting_users": len(self.chat_pairs),  # Each chat has 2 users
             "standby_users": len(self.standby_users)  # Users on the AdzuChatCard page
         }
 
