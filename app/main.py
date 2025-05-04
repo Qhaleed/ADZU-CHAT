@@ -27,7 +27,7 @@ class MessageFilter:
         profanity.add_censor_words(self.custom_badwords)
     
     def filter_message(self, message: str) -> str:
-        """Filter inappropriate content from messages."""
+        """Filter inapprop riate content from messages."""
         # Replace profanity with asterisks
         return profanity.censor(message)
     

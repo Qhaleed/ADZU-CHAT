@@ -5,7 +5,13 @@ Create two terminals:
         python -m venv venv
 
         # Activate the virtual environment
-        .\venv\Scripts\Activate.ps1
+            .\venv\Scripts\Activate.ps1
+
+        # for linux
+            source venv/bin/activate
+        
+        # to install libraries on the venv
+            pip install fastapi uvicorn websockets python-multipart
 
         # Install the required packages
         # Do this only once
