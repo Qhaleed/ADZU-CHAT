@@ -4,10 +4,10 @@
   padding: 2rem;
   max-width: 600px;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  box-shadow: 0 4px 20px var(--box-shadow);
+  background-color: var(--card-background);
   margin-top: 50px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid var(--card-border);
 }
 
 .maintenance-logo {
@@ -25,13 +25,13 @@
 
 .maintenance-page h1 {
   font-size: 2.5rem;
-  color: #02542d;
+  color: var(--user-message-bg);
   margin-bottom: 1rem;
 }
 
 .maintenance-page p {
   font-size: 1.2rem;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 0.75rem;
   line-height: 1.5;
 }
@@ -42,7 +42,7 @@
 }
 
 .maintenance-time {
-  background-color: #f5f5f5;
+  background-color: var(--input-background);
   padding: 1rem;
   border-radius: 6px;
   margin: 1.5rem 0;
@@ -51,7 +51,7 @@
 
 .maintenance-time span {
   font-weight: bold;
-  color: #02542d;
+  color: var(--user-message-bg);
 }
 
 .maintenance-button {
@@ -59,8 +59,8 @@
   padding: 12px 30px;
   font-size: 1.1rem;
   border: none;
-  background-color: #2c2c2c;
-  color: white;
+  background-color: var(--button-background);
+  color: var(--button-text);
   cursor: pointer;
   border-radius: 6px;
   transition: background-color 0.2s;

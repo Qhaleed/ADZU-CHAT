@@ -1,0 +1,53 @@
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.theme-toggle-button {
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle-button.light {
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.theme-toggle-button.dark {
+  color: #f5f5f5;
+  background-color: #333;
+}
+
+.theme-toggle-button:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle-button:active {
+  transform: scale(0.95);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .dark-mode-toggle {
+    top: 10px;
+    right: 10px;
+  }
+
+  .theme-toggle-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+}
