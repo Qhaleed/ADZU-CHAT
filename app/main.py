@@ -5,6 +5,11 @@ import threading
 from fastapi.middleware.cors import CORSMiddleware
 from better_profanity import profanity
 
+# white list 
+whitelist = ['omg', 'damm', 'queer', 'gay'] 
+
+# 
+profanity_filter = profanity()
 # Initialize the profanity filter
 profanity.load_censor_words()
 

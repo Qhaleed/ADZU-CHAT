@@ -136,7 +136,7 @@ const AdzuChatCard = () => {
 
 
                 <p className="adzu-description">
-                    An open source local anonymous chat made for students of the Ateneo de Zamboanga University.
+                    An open source local anonymous chat made for students of the Ateneo de Zamboanga University.<span> Peak hours: <br />10:00 pm - 3:00 am</span>
                 </p>
 
 
@@ -199,7 +199,7 @@ const AdzuChatCard = () => {
                     <p>Note: This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University.</p>
                     <div className="adzu-hidden-note">
                         <button onClick={() => setShowHiddenNote(!showHiddenNote)}>
-                            {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
+                               {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
                         </button>
                         {showHiddenNote && (
                             <p>
