@@ -38,3 +38,5 @@ To add a word to the profanity list
 
 To remove a word from the profanity list
     curl -X DELETE "https://adzu-chat.onrender.com/filter/words/word_to_remove"
+
+FOr achievements 
