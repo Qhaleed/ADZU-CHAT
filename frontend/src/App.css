@@ -8,8 +8,7 @@
   font-family: Arial, sans-serif;
   position: relative;
   overflow: hidden;
-  background-color: white; 
+  background-color: var(--background-color);
+  color: var(--text-color);
   /* background: linear-gradient(135deg, #4b5e71 0%, #1c7ddf 100%); */
 }
-
-

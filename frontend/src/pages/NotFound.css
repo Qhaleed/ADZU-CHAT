@@ -1,30 +1,37 @@
 .not-found {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  .not-found h1 {
-    font-size: 5rem;
-    color: #ff4f4f;
-  }
-  
-  .not-found p {
-    font-size: 1.5rem;
-    color: #333;
-  }
-  
-  .home-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    border: none;
-    background-color: #5870a3;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .home-button:hover {
-    background-color: #415582;
-  }
-  
+  text-align: center;
+  margin-top: 50px;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 4px 20px var(--box-shadow);
+  max-width: 600px;
+  margin: 50px auto 0;
+  border: 1px solid var(--card-border);
+}
+
+.not-found h1 {
+  font-size: 5rem;
+  color: var(--tag-disconnected-bg);
+}
+
+.not-found p {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.home-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  background-color: var(--user-message-bg);
+  color: var(--button-text);
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.home-button:hover {
+  background-color: #415582;
+}

@@ -1,25 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import './ChatCard.css';
 import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { ThemeContext } from '../context/ThemeContext';
 
 const StyledAlert = ({ message, onConfirm }) => {
+  const { isDarkMode } = useContext(ThemeContext);
+
   return (
     <div style={{
       position: 'fixed',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      backgroundColor: '#f8f9fa',
-      border: '1px solid #dee2e6',
+      backgroundColor: isDarkMode ? 'var(--card-background)' : '#f8f9fa',
+      border: `1px solid ${isDarkMode ? 'var(--card-border)' : '#dee2e6'}`,
       borderRadius: '8px',
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      boxShadow: `0 4px 6px ${isDarkMode ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.1)'}`,
       padding: '20px',
       zIndex: 1000,
       textAlign: 'center',
       fontFamily: 'Arial, sans-serif',
-      color: '#343a40',
+      color: isDarkMode ? 'var(--text-color)' : '#343a40',
       width: '90%', // Make it responsive
       maxWidth: '400px', // Limit the maximum width
     }}>
@@ -27,8 +30,8 @@ const StyledAlert = ({ message, onConfirm }) => {
       <button
         onClick={onConfirm}
         style={{
-          backgroundColor: '#007bff',
-          color: '#fff',
+          backgroundColor: isDarkMode ? 'var(--button-background)' : '#007bff',
+          color: isDarkMode ? 'var(--button-text)' : '#fff',
           border: 'none',
           borderRadius: '4px',
           padding: '10px 20px',
@@ -69,6 +72,7 @@ function ChatCard() {
 
   const [shouldShowAlert, setShouldShowAlert] = useState(true); //showed alert tracker
 
+  const { isDarkMode } = useContext(ThemeContext);
 
   // Extract campus and preference from URL parameters
   const params = new URLSearchParams(location.search);
@@ -178,8 +182,8 @@ function ChatCard() {
 
       {isWaiting && preference !== 'None' && (
         <div style={{
-          backgroundColor: '#f8f9fa',
-          borderLeft: '4px solid #4285f4',
+          backgroundColor: isDarkMode ? 'var(--card-background)' : '#f8f9fa',
+          borderLeft: `4px solid ${isDarkMode ? 'var(--user-message-bg)' : '#4285f4'}`,
           padding: '10px 15px',
           margin: '0px 0',
           marginBottom: '5px',
@@ -187,10 +191,11 @@ function ChatCard() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          fontSize: '15px'
+          fontSize: '15px',
+          color: isDarkMode ? 'var(--text-color)' : 'inherit'
         }}>
           <div>
-            <i className="fas fa-info-circle" style={{ marginRight: '8px', color: '#4285f4' }}></i>
+            <i className="fas fa-info-circle" style={{ marginRight: '8px', color: '#0000' }}></i>
             Can't find a match? Try setting your preference to "None" for faster matching.
           </div>
           <button
@@ -200,8 +205,8 @@ function ChatCard() {
               window.location.search = newParams.toString();
             }}
             style={{
-              backgroundColor: '#4285f4',
-              color: 'white',
+              backgroundColor: isDarkMode ? 'var(--user-message-bg)' : '#4285f4',
+              color: isDarkMode ? 'var(--user-message-color)' : 'white',
               border: 'none',
               borderRadius: '4px',
               padding: '5px 10px',
@@ -216,8 +221,8 @@ function ChatCard() {
 
       {wasFiltered && (
         <div style={{
-          backgroundColor: '#f8d7da',
-          borderLeft: '4px solid #f5c6cb',
+          backgroundColor: isDarkMode ? 'rgba(245, 198, 203, 0.2)' : '#f8d7da',
+          borderLeft: `4px solid ${isDarkMode ? 'var(--tag-disconnected-bg)' : '#f5c6cb'}`,
           padding: '10px 15px',
           margin: '0px 0',
           marginBottom: '5px',
@@ -226,10 +231,10 @@ function ChatCard() {
           justifyContent: 'space-between',
           alignItems: 'center',
           fontSize: '15px',
-          color: '#721c24'
+          color: isDarkMode ? '#ff6b6b' : '#721c24'
         }}>
           <div>
-            <i className="fas fa-exclamation-circle" style={{ marginRight: '8px', color: '#721c24' }}></i>
+            <i className="fas fa-exclamation-circle" style={{ marginRight: '8px', color: isDarkMode ? '#ff6b6b' : '#721c24' }}></i>
             A message was filtered due to inappropriate content.
           </div>
         </div>
