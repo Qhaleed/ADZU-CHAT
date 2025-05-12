@@ -4,16 +4,12 @@
   flex-direction: column;
   max-width: 1200px;
   width: 100%;
-  padding: 1.5rem;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
   box-shadow: 0 4px 20px var(--box-shadow);
   border-radius: 8px;
-  /* overflow: hidden; */
   border: 1px solid var(--card-border);
   background: var(--card-background);
-  height: 100vh;
-  padding: 5.5rem 1.5rem;
-  /* background-color: red; */
+  /* padding: 1.5rem 1rem; Reduced padding for mobile */
 }
 
 /* Logo section */
@@ -39,7 +35,7 @@
 
 /* Content section */
 .adzu-card-content {
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 .adzu-title-wrapper {
@@ -47,11 +43,10 @@
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
-  /* margin-bottom: 0.5rem; */
 }
 
 .adzu-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem; /* Smaller font size for mobile */
   font-weight: 700;
   color: var(--text-color);
 }
@@ -67,17 +62,17 @@
 
 .adzu-description {
   color: var(--text-color);
-  /* margin: 0.75rem 0 1.25rem; */
   line-height: 1.5;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Smaller font for mobile */
+  margin-bottom: 1rem;
 }
 
 /* Form elements */
 .adzu-form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
+  gap: 0.75rem; /* Reduced gap for mobile */
+  margin-bottom: 1rem; /* Reduced margin for mobile */
 }
 
 .adzu-form-group {
@@ -88,8 +83,8 @@
   display: block;
   color: var(--text-color);
   font-weight: 500;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+  margin-bottom: 0.3rem; /* Reduced margin for mobile */
+  font-size: 0.85rem; /* Smaller font for mobile */
 }
 
 /* Form input for matching code */
@@ -98,8 +93,8 @@
   background-color: var(--input-background);
   border: 1px solid var(--card-border);
   border-radius: 6px;
-  padding: 0.65rem 0.9rem;
-  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem; /* Reduced padding for mobile */
+  font-size: 0.85rem; /* Smaller font for mobile */
   color: var(--text-color);
 }
 
@@ -133,8 +128,8 @@
   background-color: var(--input-background);
   border: 1px solid var(--card-border);
   border-radius: 6px;
-  padding: 0.65rem 0.9rem;
-  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem; /* Reduced padding for mobile */
+  font-size: 0.85rem; /* Smaller font for mobile */
   color: var(--text-color);
 }
 
@@ -196,9 +191,15 @@ option:disabled {
 }
 .adzu-user-status {
   display: flex;
-  font-size: 13px;
-  justify-content: space-between;
-  padding: 0px 10px;
+  flex-direction: column; /* Stack vertically on mobile */
+  font-size: 12px;
+  gap: 0.3rem;
+  padding: 0px 5px;
+  padding-bottom: 15px;
+}
+
+.adzu-user-status p {
+  margin: 0;
 }
 
 /* Button styles */
@@ -206,7 +207,7 @@ button {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 8px 12px; /* Smaller padding for mobile */
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
@@ -218,19 +219,48 @@ button {
 
 button:focus {
   outline: none;
-  /* box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); */
 }
 
 /* Responsive styles */
+/* Mobile-first approach - Small screens are the default */
+@media (min-width: 480px) {
+  /* Slight improvements for larger phones */
+  .adzu-card {
+    padding: 2rem 1.25rem;
+    margin: 0.75rem auto;
+  }
+
+  .adzu-user-status {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .adzu-user-status p {
+    width: 48%;
+  }
+}
+
 @media (min-width: 640px) {
   .adzu-card {
     width: 85%;
+    padding: 3rem 1.5rem;
   }
   .adzu-title {
     font-size: 20px;
   }
   .adzu-description {
     font-size: 16px;
+  }
+
+  .adzu-user-status {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-size: 13px;
+  }
+
+  .adzu-user-status p {
+    width: auto;
   }
 }
 
@@ -240,6 +270,7 @@ button:focus {
     align-items: center;
     min-height: 450px;
     width: 80%;
+    padding: 2rem;
   }
   .adzu-card-logo {
     width: 40%;

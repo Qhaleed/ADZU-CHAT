@@ -134,7 +134,7 @@ function ChatCard() {
           if (data.message === 'Your chat partner has disconnected.') {
             setIsWaiting(true);
           } else if (
-            data.message === 'Connected to a chat partner!' || 
+            data.message === 'Connected to a chat partner!' ||
             data.message === 'Connected to your chat partner via matching code!' ||
             data.message.includes('Connected to a chat partner based on preferences')
           ) {
