@@ -18,7 +18,7 @@ app = FastAPI()
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://adzu-chat-frontend.vercel.app", "http://localhost:8080"],  # Your React frontend URL
+    allow_origins=["https://adzu-chat-frontend.vercel.app", "http://localhost:3000"],  # Your React frontend URL
     allow_credentials=True, 
     allow_methods=["*"],
     allow_headers=["*"],
@@ -73,6 +73,7 @@ class ConnectionManager:
         self.waiting_users: Dict[str, Tuple[str, str]] = {}  # Waiting users
         self.chat_pairs: Dict[str, str] = {}  # Paired users
         self.standby_users: Dict[str, float] = {}  # Users on the AdzuChatCard page with last heartbeat timestamp
+        self.code_waiting_users: Dict[str, str] = {}  # Code -> user_id mapping for code-based matching
         self.lock = threading.Lock()  # Lock to prevent race conditions
         self.start_cleanup_thread()  # Start the cleanup thread
 
@@ -88,6 +89,9 @@ class ConnectionManager:
             del self.active_connections[user_id]
         if user_id in self.waiting_users:
             del self.waiting_users[user_id]
+            
+        # Clean up from code waiting list
+        self.remove_user_from_code_waiting(user_id)
 
         # Clean up chat pair
         if user_id in self.chat_pairs:
@@ -103,23 +107,36 @@ class ConnectionManager:
 
         return None
 
-    def pair_users(self, user1: str) -> Optional[str]:
-        """Pair user1 with any waiting user with matching campus and preference, ensuring only two users per chat."""
+    def pair_users(self, user1: str, has_code: bool = False) -> Optional[str]:
+        """Pair user1 with any waiting user with matching campus and preference, ensuring only two users per chat.
+        If has_code is True, don't pair users (reserved for code-based matching only)."""
         if user1 not in self.waiting_users or user1 in self.chat_pairs:
             return None  # Ensure the user is not already chatting
+            
+        # If user has a code, don't pair them with regular matching
+        if has_code:
+            return None
 
         campus1, preference1 = self.waiting_users[user1]
 
         with self.lock:
             for user2, (campus2, preference2) in self.waiting_users.items():
                 if user1 != user2 and campus1 == campus2 and preference1 == preference2:
-                    if user2 not in self.chat_pairs:  # Ensure user2 is not already chatting
+                    # Also make sure user2 doesn't have a code match pending
+                    if user2 not in self.chat_pairs and not self._user_has_code(user2):
                         self.chat_pairs[user1] = user2
                         self.chat_pairs[user2] = user1
                         del self.waiting_users[user1]
                         del self.waiting_users[user2]
                         return user2
         return None
+        
+    def _user_has_code(self, user_id: str) -> bool:
+        """Check if a user is waiting with a code"""
+        for waiting_user_id in self.code_waiting_users.values():
+            if waiting_user_id == user_id:
+                return True
+        return False
 
     async def send_message(self, sender: str, receiver: str, message: str):
         """Send a message to the paired user, handle errors."""
@@ -217,6 +234,34 @@ class ConnectionManager:
             "standby_users": len(self.standby_users)  # Users on the AdzuChatCard page
         }
 
+    def add_user_with_code(self, user_id: str, code: str) -> Optional[str]:
+        """Add a user with a specific code and check if someone is waiting with the same code"""
+        with self.lock:
+            # Check if someone is already waiting with this code
+            if code in self.code_waiting_users:
+                waiting_user = self.code_waiting_users[code]
+                # Make sure the waiting user isn't the same user and is still connected
+                if waiting_user != user_id and waiting_user in self.active_connections:
+                    # Found a match - remove from code waiting
+                    del self.code_waiting_users[code]
+                    return waiting_user
+            
+            # No match yet, add this user to code waiting
+            self.code_waiting_users[code] = user_id
+            return None
+
+    def remove_user_from_code_waiting(self, user_id: str):
+        """Remove a user from code waiting list when they disconnect or match with someone else"""
+        with self.lock:
+            # Find and remove user from code_waiting_users
+            codes_to_remove = []
+            for code, waiting_user_id in self.code_waiting_users.items():
+                if waiting_user_id == user_id:
+                    codes_to_remove.append(code)
+            
+            for code in codes_to_remove:
+                del self.code_waiting_users[code]
+
 
 manager = ConnectionManager()
 
@@ -250,6 +295,68 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, campus: str, pr
             await manager.receive_message(websocket, user_id)
 
     except WebSocketDisconnect:
+        paired_user = manager.disconnect(user_id)
+        if paired_user and paired_user in manager.active_connections:
+            await manager.active_connections[paired_user].send_json({
+                "type": "system",
+                "message": "Your chat partner has disconnected."
+            })
+
+# New WebSocket endpoint for code-based matching
+@app.websocket("/ws/code/{user_id}/{campus}/{preference}/{code}")
+async def websocket_code_endpoint(websocket: WebSocket, user_id: str, campus: str, preference: str, code: str):
+    await manager.connect(websocket, user_id, campus, preference)
+    
+    try:
+        # First, check for a code match
+        matched_user = manager.add_user_with_code(user_id, code)
+        
+        if matched_user:
+            # Code match found - create a chat pair
+            manager.chat_pairs[user_id] = matched_user
+            manager.chat_pairs[matched_user] = user_id
+            
+            # Remove both users from regular waiting list if they're there
+            manager.waiting_users.pop(user_id, None)
+            manager.waiting_users.pop(matched_user, None)
+            
+            # Privacy message to send to both users
+            privacy_msg = "Chats are anonymous by default — we recommend not sharing personal information. Your identity stays private unless you choose to share it. You're free to leave a chat anytime."
+            
+            # Notify both users that they are paired via code
+            await manager.active_connections[user_id].send_json({
+                "type": "system",
+                "message": "Connected to your chat partner via matching code!"
+            })
+            await manager.active_connections[user_id].send_json({
+                "type": "system",
+                "message": privacy_msg
+            })
+            
+            await manager.active_connections[matched_user].send_json({
+                "type": "system",
+                "message": "Connected to your chat partner via matching code!"
+            })
+            await manager.active_connections[matched_user].send_json({
+                "type": "system",
+                "message": privacy_msg
+            })
+        # else:
+        #     # No code match yet, notify the user that we're waiting
+        #     await manager.active_connections[user_id].send_json({
+        #         "type": "system",
+        #         "message": f"Waiting for someone with the matching code '{code}'. You'll be connected automatically when they join."
+        #     })
+            
+            # DO NOT try regular matching as a fallback when using codes
+            # Just keep the user waiting for a code match
+
+        # Message handling loop
+        while True:
+            await manager.receive_message(websocket, user_id)
+
+    except WebSocketDisconnect:
+        # Handle disconnection
         paired_user = manager.disconnect(user_id)
         if paired_user and paired_user in manager.active_connections:
             await manager.active_connections[paired_user].send_json({

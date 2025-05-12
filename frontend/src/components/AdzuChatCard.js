@@ -7,6 +7,8 @@ import "./AdzuChatCard.css";
 const AdzuChatCard = () => {
     const [campus, setCampus] = useState("Main Campus");
     const [preference, setPreference] = useState("None");
+    const [matchingCode, setMatchingCode] = useState("");
+    const [useMatchingCode, setUseMatchingCode] = useState(false);
     const [activeUsers, setActiveUsers] = useState(0);
     const [waitingUsers, setWaitingUsers] = useState(0);
     const [chattingUsers, setChattingUsers] = useState(0);
@@ -131,12 +133,13 @@ const AdzuChatCard = () => {
             <div className="adzu-card-content">
                 <div className="adzu-title-wrapper">
                     <h1 className="adzu-title">ADZU CHAT</h1>
-                    <div className="adzu-beta-badge">Beta 0.2</div>
+                    <div className="adzu-beta-badge">Beta 0.3</div>
                 </div>
 
 
                 <p className="adzu-description">
-                    An open source local anonymous chat made for students of the Ateneo de Zamboanga University.<span> Peak hours: <br />10:00 pm - 3:00 am</span>
+                    An open source local anonymous chat made for students of the Ateneo de Zamboanga University.
+                    <span> Peak hours: <br />10:00 pm - 3:00 am</span>
                 </p>
 
 
@@ -180,10 +183,35 @@ const AdzuChatCard = () => {
                             </select>
                         </div>
                     </div>
+
+                    {/* Matching Code */}
+                    <div className="adzu-form-group">
+                        <label className="adzu-form-label">Matching Code</label>
+                        <div className="adzu-select-wrapper">
+                            <input
+                                type="text"
+                                className="adzu-form-input"
+                                value={matchingCode}
+                                onChange={(e) => setMatchingCode(e.target.value)}
+                                placeholder="Enter matching code"
+                                disabled={!useMatchingCode}
+                            />
+                        </div>
+                        <div className="adzu-checkbox-wrapper">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={useMatchingCode}
+                                    onChange={(e) => setUseMatchingCode(e.target.checked)}
+                                />
+                                Use Matching Code
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Pass selected preferences as URL parameters */}
-                <Link to={`/chat?campus=${encodeURIComponent(campus)}&preference=${encodeURIComponent(preference)}`}>
+                <Link to={`/chat?campus=${encodeURIComponent(campus)}&preference=${encodeURIComponent(preference)}&matchingCode=${encodeURIComponent(matchingCode)}`}>
                     <button className="adzu-chat-button">Chat now</button>
                 </Link>
 
@@ -196,20 +224,21 @@ const AdzuChatCard = () => {
 
 
                 <div className="adzu-reminder-container">
-                    <p>Note: This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University.</p>
+                    <p>Notes: Good luck sa finals everyone! Updates will be more frequent after finals week. If you may encounter any bugs, please report them on our Facebook page. Thanks!</p>
                     <div className="adzu-hidden-note">
                         <button onClick={() => setShowHiddenNote(!showHiddenNote)}>
-                               {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
+                            {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
                         </button>
                         {showHiddenNote && (
                             <p>
+                                This application is designed for educational and community-building purposes within the Ateneo de Zamboanga University. <br></br>
                                 The developer/s are not responsible for any misuse, issues, or consequences arising from its use. Please note that "ADZU" is a reference to the Ateneo de Zamboanga University, and this application is not officially affiliated with or endorsed by the university.
                             </p>
                         )}
                     </div>
                 </div>
                 {/* Temporarily removed github link */}
-
+                {/* Hello if you reach this, and want to contribute, you know what to do! */}
                 {/* <div className="adzu-github-link">
                     <a href="https://github.com/Qhaleed/ADZU-CHAT" target="_blank" rel="noopener noreferrer">
                         <FaGithub />
@@ -217,7 +246,7 @@ const AdzuChatCard = () => {
                 </div> */}
                 <Link to="/faqs" className="faqs-link">Frequently Asked Questions</Link>
             </div>
-        </div>
+        </div >
     );
 };
 

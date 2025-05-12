@@ -74,10 +74,14 @@ function ChatCard() {
 
   const { isDarkMode } = useContext(ThemeContext);
 
-  // Extract campus and preference from URL parameters
+  // Extract URL parameters including matching code
   const params = new URLSearchParams(location.search);
   const campus = params.get("campus") || "Main Campus";
-  const preference = params.get("preference") || "BSN";
+  const preference = params.get("preference") || "None";
+  const matchingCode = params.get("matchingCode") || "";
+
+  // Determine if we should use code matching based on whether a code was provided
+  const useCodeMatching = matchingCode.trim() !== "";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -88,14 +92,28 @@ function ChatCard() {
   }, [messages]);
 
   useEffect(() => {
-    // Create the WebSocket connection using campus and preference in the path
-    const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8000'; // Default to localhost for local development
-    const ws = new WebSocket(`${wsUrl}/ws/${userId}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`);
+    // Create the WebSocket connection
+    const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8000'; // Default to localhost for development
 
+    let wsEndpoint = "";
+    // Use the code-based endpoint if a code was provided, otherwise use the regular endpoint
+    if (useCodeMatching) {
+      wsEndpoint = `/ws/code/${userId}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}/${encodeURIComponent(matchingCode)}`;
+    } else {
+      wsEndpoint = `/ws/${userId}/${encodeURIComponent(campus)}/${encodeURIComponent(preference)}`;
+    }
+
+    const ws = new WebSocket(`${wsUrl}${wsEndpoint}`);
     wsRef.current = ws;
 
     ws.onopen = () => {
       setIsConnected(true);
+      // if (useCodeMatching) {
+      //   setMessages(prev => [...prev, {
+      //     text: `Using matching code: "${matchingCode}". Waiting for someone with the same code...`,
+      //     sender: 'system'
+      //   }]);
+      // }
     };
 
     ws.onmessage = (event) => {
@@ -112,9 +130,14 @@ function ChatCard() {
             setTimeout(() => setWasFiltered(false), 3000);
           }
 
+          // Update waiting state based on messages
           if (data.message === 'Your chat partner has disconnected.') {
             setIsWaiting(true);
-          } else if (data.message === 'Connected to a chat partner!') {
+          } else if (
+            data.message === 'Connected to a chat partner!' || 
+            data.message === 'Connected to your chat partner via matching code!' ||
+            data.message.includes('Connected to a chat partner based on preferences')
+          ) {
             setIsWaiting(false);
             setShouldShowAlert(false);
             clearTimeout(noMatchTimeout); // Clear timeout if matched
@@ -138,7 +161,7 @@ function ChatCard() {
         ws.close();
       }
     };
-  }, [campus, preference, userId]);  // Added userId to dependency array
+  }, [campus, preference, userId, matchingCode, useCodeMatching]);  // Added userId, matchingCode, and useCodeMatching to dependency array
 
   const handleInputChange = (e) => {
     setMessage(e.target.value);

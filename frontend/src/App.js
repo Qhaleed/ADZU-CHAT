@@ -19,10 +19,11 @@ function App() {
         <DarkModeToggle />
         <Router>
           <Routes>
-            <Route path="/maintenance" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/c" element={<LandingPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/faqs" element={<FAQs />} />
-            <Route path="/" element={<MaintenancePage />} />
+            <Route path="/maintenance" element={<MaintenancePage />} />
             <Route path="*" element={<NotFound />} /> {/* 404 Page */}
           </Routes>
         </Router>

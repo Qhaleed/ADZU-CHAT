@@ -20,11 +20,11 @@ const FAQs = () => {
             </div>
             <div className="faq-item">
                 <h2>How can I report an issue?</h2>
-                <p>You can report issues or provide feedback by visiting our <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p>
+                <p>You can report issues or provide feedback by messaging our Facebook page.</p>
             </div>
             <div className="faq-item">
                 <h2>How can I contribute?</h2>
-                <p>You can contribute to ADZU CHAT by visiting our <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub repository</a>. Feel free to report issues, suggest features, or submit pull requests to improve the platform.</p>
+                <p>If you are a developer, you can contribute to ADZU CHAT by messaging our Facebook page with "collab!" . Feel free to report issues, suggest features, or submit pull requests to improve the platform once you are accepted as a contributor.</p>
             </div>
             <Link to="/" className="back-to-landing-button">Back to Landing Page</Link>
         </div>
