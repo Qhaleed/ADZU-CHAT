@@ -4,7 +4,14 @@ import json
 import threading
 from fastapi.middleware.cors import CORSMiddleware
 from better_profanity import profanity
-from .global_chat_manager import global_chat_manager
+
+# Handle both local development and deployment imports
+try:
+    # For deployment (when run as a package)
+    from .global_chat_manager import global_chat_manager
+except ImportError:
+    # For local development (when run directly)
+    from global_chat_manager import global_chat_manager
 
 # white list 
 # whitelist = ['omg', 'damm', 'queer', 'gay'] 
@@ -368,7 +375,21 @@ async def websocket_code_endpoint(websocket: WebSocket, user_id: str, campus: st
 # Endpoint to fetch user stats (active, waiting, chatting users)
 @app.get("/user-stats")
 async def get_user_stats():
-    return manager.get_user_stats()
+    # Get regular chat stats
+    regular_stats = manager.get_user_stats()
+    
+    # Get global chat stats
+    global_stats = global_chat_manager.get_stats()
+    
+    # Combine chatting users: regular chat pairs + global chat active users
+    combined_chatting_users = regular_stats["chatting_users"] + global_stats["active_users"]
+    
+    return {
+        "active_users": regular_stats["active_users"],
+        "waiting_users": regular_stats["waiting_users"], 
+        "chatting_users": combined_chatting_users,  # Regular chatting + Global chat users
+        "standby_users": regular_stats["standby_users"]
+    }
 
 @app.get("/ping")
 async def ping():

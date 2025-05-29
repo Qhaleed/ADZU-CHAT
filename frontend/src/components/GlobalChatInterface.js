@@ -147,7 +147,7 @@ const GlobalChatInterface = () => {
             <div className="chat-card">
                 <div className="loading-container">
                     <div className="loading-spinner"></div>
-                    <p>Connecting to Global Chat...</p>
+                    <p>Connecting to Free Chat...</p>
                 </div>
             </div>
         );

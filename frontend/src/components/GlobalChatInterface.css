@@ -47,18 +47,21 @@
   align-items: center;
   margin-bottom: 5px;
   font-size: 0.8rem;
-  opacity: 0.8;
+  /* opacity: 0.8; */
 }
 
 .message-user {
-  font-weight: bold;
+  font-weight: bolder;
+  /* color: rgb(255, 0, 0);
+   */
   color: white;
+  /* opacity: 0.8; */
 }
 
 .message-time {
   font-size: 0.7rem;
   color: white;
-  opacity: 0.8;
+  /* opacity: 0.8; */
   padding-left: 20px;
 }
 
