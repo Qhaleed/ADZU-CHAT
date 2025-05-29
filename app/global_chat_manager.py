@@ -4,9 +4,8 @@ import json
 import threading
 import time
 import uuid
-from datetime import datetime
 from better_profanity import profanity
-
+from datetime import datetime, timedelta
 class GlobalChatManager:
     def __init__(self):
         self.active_connections: Dict[str, WebSocket] = {}  # user_id -> websocket
@@ -97,13 +96,15 @@ class GlobalChatManager:
             
             # Create anonymous user identifier (consistent per session)
             anon_id = f"Anon{user_id[:6]}"
+
+            ph_time = datetime.now() + timedelta(hours=8)
             
             # Create message object
             broadcast_message = {
                 "type": "global_message",
                 "message": filtered_message,
                 "user_id": anon_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": ph_time.isoformat(),
                 "message_id": str(uuid.uuid4())
             }
             
@@ -113,7 +114,7 @@ class GlobalChatManager:
                 warning_message = {
                     "type": "system",
                     "message": "⚠️ Your message contained inappropriate content and was filtered.",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": ph_time.isoformat(),
                     "message_id": str(uuid.uuid4())
                 }
                 
@@ -133,10 +134,11 @@ class GlobalChatManager:
 
     async def broadcast_user_count(self):
         """Broadcast current user count to all connected users."""
+        ph_time = datetime.now() + timedelta(hours=8)  # Use Philippine time for consistency
         user_count_message = {
             "type": "user_count",
             "count": len(self.active_connections),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": ph_time.isoformat()  # Changed to use ph_time
         }
         
         disconnected_users = []
