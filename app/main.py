@@ -4,7 +4,7 @@ import json
 import threading
 from fastapi.middleware.cors import CORSMiddleware
 from better_profanity import profanity
-from global_chat_manager import global_chat_manager
+from .global_chat_manager import global_chat_manager
 
 # white list 
 # whitelist = ['omg', 'damm', 'queer', 'gay'] 
