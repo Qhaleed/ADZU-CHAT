@@ -133,7 +133,7 @@ const AdzuChatCard = () => {
             <div className="adzu-card-content">
                 <div className="adzu-title-wrapper">
                     <h1 className="adzu-title">ADZU CHAT</h1>
-                    <div className="adzu-beta-badge">Beta 0.3</div>
+                    <div className="adzu-beta-badge">Beta 0.5</div>
                 </div>
 
 
@@ -229,7 +229,7 @@ const AdzuChatCard = () => {
 
 
                 <div className="adzu-reminder-container">
-                    <p>Notes: Good luck sa finals everyone! Updates will be more frequent after finals week. If you may encounter any bugs, please report them on our Facebook page. Thanks!</p>
+                    <p>Notes: Free chat is here! </p>
                     <div className="adzu-hidden-note">
                         <button onClick={() => setShowHiddenNote(!showHiddenNote)}>
                             {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
