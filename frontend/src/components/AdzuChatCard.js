@@ -215,9 +215,9 @@ const AdzuChatCard = () => {
                     <Link to={`/chat?campus=${encodeURIComponent(campus)}&preference=${encodeURIComponent(preference)}&matchingCode=${encodeURIComponent(matchingCode)}`}>
                         <button className="adzu-chat-button">Chat now</button>
                     </Link>
-                    {/* <Link to="/global">
+                    <Link to="/global">
                         <button className="adzu-global-button">Free Chat</button>
-                    </Link> */}
+                    </Link>
                 </div>
 
                 <div className="adzu-user-status">
