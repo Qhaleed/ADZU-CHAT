@@ -4,6 +4,7 @@ import json
 import threading
 from fastapi.middleware.cors import CORSMiddleware
 from better_profanity import profanity
+from global_chat_manager import global_chat_manager
 
 # white list 
 # whitelist = ['omg', 'damm', 'queer', 'gay'] 
@@ -408,3 +409,26 @@ async def standby_heartbeat(user_id: str):
     """Update the timestamp for a standby user to prevent timeout."""
     manager.update_standby_timestamp(user_id)
     return {"success": True, "message": f"Heartbeat received for user {user_id}"}
+
+# Global Chat WebSocket endpoint
+@app.websocket("/ws/global/{user_id}")
+async def global_chat_websocket(websocket: WebSocket, user_id: str):
+    """WebSocket endpoint for global chat functionality."""
+    await global_chat_manager.connect(websocket, user_id)
+    
+    try:
+        while True:
+            # Receive message from user
+            raw_message = await websocket.receive_text()
+            await global_chat_manager.process_message(user_id, raw_message)
+            
+    except WebSocketDisconnect:
+        global_chat_manager.disconnect(user_id)
+        # Broadcast updated user count
+        await global_chat_manager.broadcast_user_count()
+
+# Global Chat stats endpoint
+@app.get("/global-chat-stats")
+async def get_global_chat_stats():
+    """Get global chat statistics."""
+    return global_chat_manager.get_stats()

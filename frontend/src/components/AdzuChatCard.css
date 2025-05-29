@@ -163,6 +163,18 @@ option:disabled {
   color: var(--user-message-bg);
   font-size: 10px;
 }
+
+/* Button Group Styles */
+.adzu-button-group {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.adzu-button-group a {
+  flex: 1;
+}
+
 .adzu-chat-button {
   width: 100%;
   background-color: var(--button-background);
@@ -174,10 +186,26 @@ option:disabled {
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
-  margin-bottom: 1.25rem;
+}
+
+.adzu-global-button {
+  width: 100%;
+  background: var(--button-background);
+  color: white;
+  padding: 0.7rem 0;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .adzu-chat-button:hover {
+  background-color: #000000;
+}
+
+.adzu-global-button:hover {
   background-color: #000000;
 }
 
@@ -295,5 +323,19 @@ button:focus {
   }
   .adzu-title {
     font-size: 2.25rem;
+  }
+}
+
+/* Mobile responsiveness for buttons */
+@media screen and (max-width: 600px) {
+  .adzu-button-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .adzu-chat-button,
+  .adzu-global-button {
+    font-size: 0.9rem;
+    padding: 0.65rem 0;
   }
 }

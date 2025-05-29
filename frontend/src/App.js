@@ -10,6 +10,7 @@ import FAQs from "./pages/FAQs.js";
 import MaintenancePage from "./pages/MaintenancePage.js";
 import { ThemeProvider } from "./context/ThemeContext";
 import DarkModeToggle from "./components/DarkModeToggle";
+import GlobalChat from "./pages/GlobalChat.js";
 
 inject();
 function App() {
@@ -19,11 +20,12 @@ function App() {
         <DarkModeToggle />
         <Router>
           <Routes>
-            <Route path="/maintenance" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/c" element={<LandingPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/faqs" element={<FAQs />} />
-            <Route path="/" element={<MaintenancePage />} />
+            <Route path="/maintenance" element={<MaintenancePage />} />
+            <Route path="/global" element={<GlobalChat />} />
             <Route path="*" element={<NotFound />} /> {/* 404 Page */}
           </Routes>
         </Router>
