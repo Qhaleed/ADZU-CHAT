@@ -1,0 +1,16 @@
+.vercel
+
+# Python
+venv/
+**/venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Node
+node_modules/
+.npm-cache/
+
+# OS
+.DS_Store
