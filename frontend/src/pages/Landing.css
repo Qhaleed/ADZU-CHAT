@@ -10,3 +10,15 @@
 
   transition: 500ms;
 }
+
+/* Anchor the landing content to the top so the sneak-peek banner
+   shows first, with the chat card flowing below it. Overrides the
+   global .app-container vertical centering for this page only. */
+.landing-stack {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}

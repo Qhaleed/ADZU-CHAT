@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaGithub } from 'react-icons/fa';
-import { v4 as uuidv4 } from 'uuid'; // We'll need to install this package
+import { v4 as uuidv4 } from 'uuid';
 import "./AdzuChatCard.css";
 
 const AdzuChatCard = () => {
@@ -210,11 +209,9 @@ const AdzuChatCard = () => {
                     </div>
                 </div>
 
-                {/* Pass selected preferences as URL parameters */}
+                {/* "Chat now" disabled while we ship the social network; Free Chat stays live */}
                 <div className="adzu-button-group">
-                    <Link to={`/chat?campus=${encodeURIComponent(campus)}&preference=${encodeURIComponent(preference)}&matchingCode=${encodeURIComponent(matchingCode)}`}>
-                        <button className="adzu-chat-button">Chat now</button>
-                    </Link>
+                    <button className="adzu-chat-button" disabled aria-disabled="true">Chat now</button>
                     <Link to="/global">
                         <button className="adzu-global-button">Free Chat</button>
                     </Link>
