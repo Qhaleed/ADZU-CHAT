@@ -226,7 +226,7 @@ const AdzuChatCard = () => {
 
 
                 <div className="adzu-reminder-container">
-                    <p>Notes: Free chat is here! Anonymous group chat fr!</p>
+                    <p>Heads up: ADZU Chat is evolving into ADZU Social Network &mdash; launching soon.</p>
                     <div className="adzu-hidden-note">
                         <button onClick={() => setShowHiddenNote(!showHiddenNote)}>
                             {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
