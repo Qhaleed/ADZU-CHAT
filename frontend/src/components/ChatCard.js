@@ -1,58 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import ReactDOM from 'react-dom/client';
 import './ChatCard.css';
 import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '../context/ThemeContext';
-
-const StyledAlert = ({ message, onConfirm }) => {
-  const { isDarkMode } = useContext(ThemeContext);
-
-  return (
-    <div style={{
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      backgroundColor: isDarkMode ? 'var(--card-background)' : '#f8f9fa',
-      border: `1px solid ${isDarkMode ? 'var(--card-border)' : '#dee2e6'}`,
-      borderRadius: '8px',
-      boxShadow: `0 4px 6px ${isDarkMode ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.1)'}`,
-      padding: '20px',
-      zIndex: 1000,
-      textAlign: 'center',
-      fontFamily: 'Arial, sans-serif',
-      color: isDarkMode ? 'var(--text-color)' : '#343a40',
-      width: '90%', // Make it responsive
-      maxWidth: '400px', // Limit the maximum width
-    }}>
-      <p style={{ marginBottom: '20px', fontSize: '16px' }}>{message}</p>
-      <button
-        onClick={onConfirm}
-        style={{
-          backgroundColor: isDarkMode ? 'var(--button-background)' : '#007bff',
-          color: isDarkMode ? 'var(--button-text)' : '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          padding: '10px 20px',
-          cursor: 'pointer',
-          fontSize: '14px',
-          width: '100%', // Make button responsive
-          maxWidth: '200px', // Limit button width
-        }}
-      >
-        Confirm
-      </button>
-    </div>
-  );
-};
 
 function ChatCard() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [isWaiting, setIsWaiting] = useState(true);
-  const [noMatchTimeout, setNoMatchTimeout] = useState(null);
   const wsRef = useRef(null);
   const [userId] = useState(() => {
     // Check if we already have a UUID stored in localStorage
@@ -69,8 +25,6 @@ function ChatCard() {
   const messagesEndRef = useRef(null);
   const location = useLocation();
   const [wasFiltered, setWasFiltered] = useState(false);
-
-  const [shouldShowAlert, setShouldShowAlert] = useState(true); //showed alert tracker
 
   const { isDarkMode } = useContext(ThemeContext);
 
@@ -139,8 +93,6 @@ function ChatCard() {
             data.message.includes('Connected to a chat partner based on preferences')
           ) {
             setIsWaiting(false);
-            setShouldShowAlert(false);
-            clearTimeout(noMatchTimeout); // Clear timeout if matched
           }
         } else if (data.type === 'message') {
           setMessages(prev => [...prev, { text: data.message, sender: 'user' }]);

@@ -5,7 +5,6 @@ const AdzuSnBanner = () => {
   return (
     <aside
       className="adzu-sn-banner"
-      role="complementary"
       aria-label="ADZU Social Network sneak peek"
     >
       <span className="adzu-sn-banner__badge">Sneak peek</span>
