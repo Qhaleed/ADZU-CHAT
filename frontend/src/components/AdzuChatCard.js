@@ -209,12 +209,11 @@ const AdzuChatCard = () => {
                     </div>
                 </div>
 
-                {/* "Chat now" disabled while we ship the social network; Free Chat stays live */}
                 <div className="adzu-button-group">
-                    <button className="adzu-chat-button" disabled aria-disabled="true">Chat now</button>
-                    <Link to="/global">
-                        <button className="adzu-global-button">Free Chat</button>
-                    </Link>
+                    <p className="adzu-early-access-note">Early access only accessible through ADZU Chat!</p>
+                    <a href="https://azulsn.com" target="_self" rel="noopener noreferrer">
+                        <button className="adzu-global-button">Get early access!</button>
+                    </a>
                 </div>
 
                 <div className="adzu-user-status">
@@ -226,7 +225,7 @@ const AdzuChatCard = () => {
 
 
                 <div className="adzu-reminder-container">
-                    <p>Heads up: ADZU Chat is evolving into ADZU Social Network &mdash; launching soon.</p>
+                    <p>Hey peeps! Thank you for being part of this community. Hope to see everyone again on our new and better platform!</p>
                     <div className="adzu-hidden-note">
                         <button onClick={() => setShowHiddenNote(!showHiddenNote)}>
                             {showHiddenNote ? 'Hide Details' : 'Show Disclaimer'}
@@ -240,7 +239,7 @@ const AdzuChatCard = () => {
                     </div>
                 </div>
                 {/* Temporarily removed github link */}
-                {/* Hello if you reach this, and want to contribute, you know what to do! */}
+                {/* Hey! If you've made it this far — thank you, genuinely. ADZU Chat started as a scrappy little idea and somehow y'all turned it into something real. Every chat, every late-night convo, every person who stuck around — it meant the world. The service is moving to azulsn.com where we're building something even bigger. If you've ever hit "Chat now" and felt a little less alone, then we did our job. See you on the other side. — the dev */}
                 {/* <div className="adzu-github-link">
                     <a href="https://github.com/Qhaleed/ADZU-CHAT" target="_blank" rel="noopener noreferrer">
                         <FaGithub />

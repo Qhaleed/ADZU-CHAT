@@ -7,7 +7,7 @@ const AdzuSnBanner = () => {
       className="adzu-sn-banner"
       aria-label="ADZU Social Network sneak peek"
     >
-      <span className="adzu-sn-banner__badge">Sneak peek</span>
+      <span className="adzu-sn-banner__badge">Early Access</span>
 
       <div className="adzu-sn-banner__wordmark" aria-hidden="true">
         <span className="adzu-sn-banner__w adzu-sn-banner__w--adzu">ADZU.</span>
@@ -26,7 +26,7 @@ const AdzuSnBanner = () => {
 
       <p className="adzu-sn-banner__status">
         <span className="adzu-sn-banner__pulse" aria-hidden="true"></span>
-        Coming soon
+        Live now on azulsn.com
       </p>
     </aside>
   );

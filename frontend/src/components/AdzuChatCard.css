@@ -165,8 +165,16 @@ option:disabled {
 }
 
 /* Button Group Styles */
+.adzu-early-access-note {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted-text);
+  text-align: center;
+}
+
 .adzu-button-group {
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 1.25rem;
 }
